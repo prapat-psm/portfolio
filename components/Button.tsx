@@ -15,6 +15,7 @@ const Button = ({
   className,
   children,
   variants = "primary",
+  type = "button",
   ...restProps
 }: ButtonProps) => {
   const variantClass: Record<ButtonVariants, string> = {
@@ -26,7 +27,15 @@ const Button = ({
   };
 
   return (
-    <button className={cn(variantClass[variants], className)} {...restProps}>
+    <button
+      type={type}
+      className={cn(
+        "px-8 h-12 flex items-center font-medium justify-center rounded-full transition-all text-md hover:shadow-neon",
+        variantClass[variants],
+        className,
+      )}
+      {...restProps}
+    >
       {children}
     </button>
   );

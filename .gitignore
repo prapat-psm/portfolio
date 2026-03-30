@@ -30,8 +30,27 @@ yarn-debug.log*
 yarn-error.log*
 .pnpm-debug.log*
 
+
+# เคลียร์ Database
+*.db
+*.sqlite
+*.sqlite3
+sqlite_db.db
+
+# เคลียร์ Environment 
 # env files (can opt-in for committing if needed)
-.env*
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# เคลียร์ Logs
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+*.log
+
 
 # vercel
 .vercel

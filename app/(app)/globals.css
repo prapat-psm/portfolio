@@ -21,6 +21,19 @@
   --font-manrope: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
   --font-inter: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
+  /* Liquid Typography - Scaling from 375px to 3840px */
+  --text-xs: clamp(0.75rem, 0.72rem + 0.13vw, 1rem);
+  --text-sm: clamp(0.875rem, 0.84rem + 0.15vw, 1.25rem);
+  --text-base: clamp(1rem, 0.95rem + 0.23vw, 1.5rem);
+  --text-lg: clamp(1.125rem, 1.05rem + 0.32vw, 1.875rem);
+  --text-xl: clamp(1.25rem, 1.15rem + 0.43vw, 2.25rem);
+  --text-2xl: clamp(1.5rem, 1.35rem + 0.65vw, 3rem);
+  --text-3xl: clamp(1.875rem, 1.65rem + 0.97vw, 4.125rem);
+  --text-4xl: clamp(2.25rem, 1.95rem + 1.3vw, 5.25rem);
+  --text-5xl: clamp(3rem, 2.5rem + 2.16vw, 8rem);
+  --text-6xl: clamp(3.75rem, 3.1rem + 2.8vw, 10rem);
+  --text-7xl: clamp(4.5rem, 3.6rem + 3.9vw, 13.5rem);
+
   /* Elevation (Atmospheric shadows) */
   --shadow-primary:
     0px 4px 20px rgba(163, 166, 255, 0.1),
@@ -50,29 +63,14 @@
       transform: translateY(-2px);
     }
   }
-}
 
-@utility display-lg {
-  font-family: var(--font-manrope);
-  font-size: 3.5rem;
-  font-weight: 700;
-  letter-spacing: -0.02em;
-  line-height: normal;
-}
+  .c-section {
+    @apply py-16 lg:py-32 bg-surface-container-low relative;
+  }
 
-@utility headline-lg {
-  font-family: var(--font-manrope);
-  font-size: 2rem;
-  font-weight: 700;
-  line-height: 1.25;
-}
-
-@utility label-md {
-  font-family: var(--font-inter);
-  font-size: 0.75rem;
-  font-weight: 600;
-  text-transform: uppercase;
-  letter-spacing: 0.05em;
+  .text-gradient {
+    @apply text-transparent bg-clip-text bg-linear-to-r from-primary to-primary-dim;
+  }
 }
 
 @utility glass {

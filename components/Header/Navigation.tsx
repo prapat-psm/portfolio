@@ -1,26 +1,31 @@
 "use client";
 
 import Link from "next/link";
+import { useId } from "react";
+
+const navItems = ["projects", "stacks", "contact"];
 
 const Navigation = () => {
   return (
     <nav className="flex items-center gap-8">
-      <ul>
-        <li>
-          <Link href="#work">Work</Link>
-        </li>
-        <li>
-          <Link href="#about">About</Link>
-        </li>
-        <li>
-          <Link href="#contact">Contact</Link>
-        </li>
+      <ul className="flex items-center gap-x-2">
+        {navItems.map((item) => (
+          <NavItem key={item} label={item} />
+        ))}
       </ul>
-
-      <button className="hidden sm:block bg-linear-to-r from-primary to-primary-dim text-black px-6 py-2 rounded-full font-bold transition-transform active:scale-95 hover:neon-glow">
-        Hire Me
-      </button>
     </nav>
+  );
+};
+
+const NavItem = ({ label }: { label: string }) => {
+  const id = useId();
+
+  return (
+    <li key={`${id}-${label}`}>
+      <Link href={`#${label}`} className="text-md">
+        {label.split("")[0].toUpperCase() + label.slice(1)}
+      </Link>
+    </li>
   );
 };
 

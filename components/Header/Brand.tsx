@@ -8,7 +8,7 @@ const Brand = () => {
         className="headline-lg tracking-wider"
         title="Prapat Prapatsornmanu"
       >
-        P. P.
+        PP
       </Link>
     </div>
   );
