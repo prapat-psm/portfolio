@@ -1,26 +1,99 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  /* Colors */
+  --color-surface: #060e20;
+  --color-surface-container-low: #091328;
+  --color-surface-container: #0f1930;
+  --color-surface-variant: #192540;
+  --color-surface-bright: #1f2b49;
+  --color-primary: #a3a6ff;
+  --color-primary-dim: #6063ee;
+  --color-on-primary-fixed: #000000;
+  --color-secondary: #c180ff;
+  --color-tertiary: #8ce7ff;
+  --color-outline: #6d758c;
+  --color-outline-variant: #40485d;
+  --color-on-background: #dee5ff;
+  --color-on-surface-variant: #a3aac4;
+
+  /* Typography */
+  --font-display: var(--font-manrope);
+  --font-inter: var(--font-inter);
+  --font-manrope: var(--font-manrope);
+
+  /* Elevation (Atmospheric shadows) */
+  --shadow-primary:
+    0px 4px 20px rgba(163, 166, 255, 0.1),
+    0px 0px 40px rgba(163, 166, 255, 0.05);
+  --shadow-neon:
+    0px 0px 20px rgba(163, 166, 255, 0.2), 0px 0px 40px rgba(163, 166, 255, 0.1);
+
+  /* Spacing */
+  --spacing-16: 5.5rem;
+  --spacing-20: 7rem;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+@layer components {
+  .btn-primary {
+    @apply inline-flex items-center justify-center px-8 py-3 rounded-full font-bold text-on-primary-fixed;
+    background: linear-gradient(
+      135deg,
+      var(--color-primary),
+      var(--color-primary-dim)
+    );
+    transition: all 0.3s ease;
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    &:hover {
+      @apply shadow-neon;
+      transform: translateY(-2px);
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+@utility display-lg {
+  font-family: var(--font-manrope);
+  font-size: 3.5rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: normal;
+}
+
+@utility headline-lg {
+  font-family: var(--font-manrope);
+  font-size: 2rem;
+  font-weight: 700;
+  line-height: 1.25;
+}
+
+@utility label-md {
+  font-family: var(--font-inter);
+  font-size: 0.75rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+@utility glass {
+  background-color: color-mix(
+    in srgb,
+    var(--color-surface-bright) 60%,
+    transparent
+  );
+  backdrop-filter: blur(24px);
+}
+
+@utility ghost-outline {
+  outline: 1px solid
+    color-mix(in srgb, var(--color-outline-variant) 15%, transparent);
+}
+
+@utility gradient-mask {
+  mask-image: linear-gradient(to bottom, black 50%, transparent);
+}
+
+@layer base {
+  body {
+    @apply bg-surface text-on-background font-inter antialiased;
+  }
 }
