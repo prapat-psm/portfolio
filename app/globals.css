@@ -7,9 +7,9 @@
   --color-surface-container: #0f1930;
   --color-surface-variant: #192540;
   --color-surface-bright: #1f2b49;
+
   --color-primary: #a3a6ff;
   --color-primary-dim: #6063ee;
-  --color-on-primary-fixed: #000000;
   --color-secondary: #c180ff;
   --color-tertiary: #8ce7ff;
   --color-outline: #6d758c;
@@ -18,9 +18,8 @@
   --color-on-surface-variant: #a3aac4;
 
   /* Typography */
-  --font-display: var(--font-manrope);
-  --font-inter: var(--font-inter);
-  --font-manrope: var(--font-manrope);
+  --font-manrope: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
+  --font-inter: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
 
   /* Elevation (Atmospheric shadows) */
   --shadow-primary:
@@ -28,15 +27,17 @@
     0px 0px 40px rgba(163, 166, 255, 0.05);
   --shadow-neon:
     0px 0px 20px rgba(163, 166, 255, 0.2), 0px 0px 40px rgba(163, 166, 255, 0.1);
+}
 
-  /* Spacing */
-  --spacing-16: 5.5rem;
-  --spacing-20: 7rem;
+@layer base {
+  body {
+    @apply bg-surface text-on-background font-inter antialiased;
+  }
 }
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center px-8 py-3 rounded-full font-bold text-on-primary-fixed;
+    @apply inline-flex items-center justify-center px-8 py-3 rounded-full font-bold;
     background: linear-gradient(
       135deg,
       var(--color-primary),
@@ -92,8 +93,12 @@
   mask-image: linear-gradient(to bottom, black 50%, transparent);
 }
 
-@layer base {
-  body {
-    @apply bg-surface text-on-background font-inter antialiased;
-  }
+@utility neon-glow {
+  box-shadow:
+    0px 4px 20px rgba(163, 166, 255, 0.15),
+    0px 0px 40px rgba(163, 166, 255, 0.1);
+}
+
+@utility neon-text {
+  text-shadow: 0 0 15px rgba(163, 166, 255, 0.4);
 }
