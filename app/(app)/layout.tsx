@@ -1,9 +1,11 @@
+import "./globals.css";
 import type { Metadata } from "next";
 import { Manrope, Inter } from "next/font/google";
-import "./globals.css";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Preload } from "@/components/Preload";
+
+import { PreloadProvider } from "@/components/Providers";
 
 const manrope = Manrope({
   variable: "--font-manrope",
@@ -34,10 +36,12 @@ export default function RootLayout({
       className={`${manrope.variable} ${inter.variable} h-full antialiased`}
     >
       <body className="min-h-full flex flex-col bg-surface text-on-background font-inter">
-        <Preload />
-        <Header />
-        <main className="flex-1">{children}</main>
-        <Footer />
+        <PreloadProvider>
+          <Preload />
+          <Header />
+          <main className="flex-1">{children}</main>
+          <Footer />
+        </PreloadProvider>
       </body>
     </html>
   );

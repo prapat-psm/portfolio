@@ -2,13 +2,16 @@
 
 import { motion, useAnimation, type Transition } from "motion/react";
 import { useEffect, useRef, useState } from "react";
+import { usePreload } from "@/components/Providers";
 
 const Preload = () => {
   const [isDone, setIsDone] = useState(false);
 
-  const p1Controls = useAnimation();
-  const p2Controls = useAnimation();
+  const wrapperControls = useAnimation();
+  const g1Controls = useAnimation();
+  const g2Controls = useAnimation();
   const containerControls = useAnimation();
+  const { setPreloadFinished } = usePreload();
 
   const wrapperRef = useRef<HTMLDivElement>(null);
   const innerRef = useRef<HTMLDivElement>(null);
@@ -19,15 +22,16 @@ const Preload = () => {
     const sequence = async () => {
       if (!mounted) return;
 
-      // 1. Initial State (ซ่อน P1, P2 ตอนเริ่มต้น)
-      p1Controls.set({ y: "100%", x: 0 });
-      p2Controls.set({ y: "100%", x: 0 });
+      // 1. Initial State (ซ่อน G1, G2 นอกกรอบ SVG สู่ด้านล่าง)
+      wrapperControls.set({ x: 0, y: 0 }); // กรอบหลักอยู่ตรงกลาง
+      g1Controls.set({ y: 100, x: 0 });
+      g2Controls.set({ y: 100, x: 0 });
       containerControls.set({ opacity: 1 });
 
-      await new Promise((r) => setTimeout(r, 100)); // หน่วงรอมัน mount ให้เรียบร้อย
+      await new Promise((r) => setTimeout(r, 100)); // หน่วงรอมัน mount
       if (!mounted) return;
 
-      // 2. Animate P1 และ P2 สลับกันเป็น Sequence
+      // 2. Animate G1 และ G2 สลับกันโผล่ขึ้นมา (แบบซ้อนทับกัน)
       const revealSpring: Transition = {
         type: "spring",
         stiffness: 100,
@@ -35,27 +39,37 @@ const Preload = () => {
         mass: 1,
       };
 
-      const p1Promise = p1Controls.start({ y: "0%", transition: revealSpring });
-      await new Promise((r) => setTimeout(r, 150)); // stagger ทีละ 150ms
+      const g1Promise = g1Controls.start({ y: 0, transition: revealSpring });
+      const g2Promise = g2Controls.start({ y: 0, transition: revealSpring });
+
+      // รอจนปรากฏขึ้นมาครบทั้งคู่ (ตอนนี้มันจะซ้อนทับกันอยู่กึ่งกลางเต็มๆ)
+      await Promise.all([g1Promise, g2Promise]);
       if (!mounted) return;
 
-      const p2Promise = p2Controls.start({ y: "0%", transition: revealSpring });
+      // 3. Animation แยกตัวเองออกมา
+      const separateSpring: Transition = {
+        type: "spring",
+        stiffness: 70,
+        damping: 15,
+        mass: 1,
+      };
 
-      // รอจนกว่าจะปรากฏขึ้นมาครบแล้วตั้งตัวทั้งคู่
-      await Promise.all([p1Promise, p2Promise]);
+      await g2Controls.start({ x: 25, y: 25, transition: separateSpring });
       if (!mounted) return;
 
-      // 3. หน่วง 500ms
+      // 4. หน่วง 500ms หลังจากแยกตัวเองออก
       await new Promise((r) => setTimeout(r, 500));
       if (!mounted) return;
 
-      // ปิด overflow เพื่อเตรียมให้ตัวอักษรวิ่งออกไปนอกกรอบได้อิสระ
+      // เปิด overflow เพื่อไม่ให้โดนครอปตอนเคลื่อนย้าย
       if (wrapperRef.current) {
         wrapperRef.current.style.overflow = "visible";
       }
 
-      // 4. คำนวณหาตำแหน่งของ Logo จริงใน Header เพื่อไปหา
-      const brandEl = document.querySelector('a[title="Prapat Prapatsornmanu"]');
+      // 5. คำนวณหาตำแหน่งของ Logo ใน Header จริงที่ต้องไปทับ
+      const brandEl = document.querySelector(
+        'a[title="Prapat Prapatsornmanu"]',
+      );
       let moveX = 0;
       let moveY = -(window.innerHeight / 2 - 40); // default position in case brand is missing
 
@@ -63,12 +77,11 @@ const Preload = () => {
         const brandRect = brandEl.getBoundingClientRect();
         const textRect = innerRef.current.getBoundingClientRect();
 
-        // ระยะห่างที่ต้องเคลื่อนที่ (ค่าส่วนต่าง)
         moveX = brandRect.x - textRect.x;
         moveY = brandRect.y - textRect.y;
       }
 
-      // 5. สั่งเคลื่อนที่ PP ไปที่เป้าหมาย
+      // 6. เคลื่อนย้าย Wrapper ตัว Container หลักขึ้นไปที่เป้าหมาย
       const moveSpring: Transition = {
         type: "spring",
         stiffness: 50,
@@ -76,21 +89,23 @@ const Preload = () => {
         mass: 1,
       };
 
-      await Promise.all([
-        p1Controls.start({ x: moveX, y: moveY, transition: moveSpring }),
-        p2Controls.start({ x: moveX, y: moveY, transition: moveSpring }),
-      ]);
+      await wrapperControls.start({
+        x: moveX,
+        y: moveY,
+        transition: moveSpring,
+      });
       if (!mounted) return;
 
-      // 6. Dissolve ตัวกรอบให้หายไป
+      // 7. Dissolve ทั้งหน้าจอ
       await containerControls.start({
         opacity: 0,
         transition: { duration: 0.5, ease: "easeInOut" },
       });
       if (!mounted) return;
 
-      // 7. ลบคอมโพเนนต์แบบสมบูรณ์
+      // 8. ลบคอมโพเนนต์แบบสมบูรณ์และแจ้ง State ให้ส่วนอื่นทำงานต่อ
       setIsDone(true);
+      setPreloadFinished();
     };
 
     sequence();
@@ -98,7 +113,13 @@ const Preload = () => {
     return () => {
       mounted = false;
     };
-  }, [p1Controls, p2Controls, containerControls]);
+  }, [
+    wrapperControls,
+    g1Controls,
+    g2Controls,
+    containerControls,
+    setPreloadFinished,
+  ]);
 
   if (isDone) return null;
 
@@ -107,26 +128,36 @@ const Preload = () => {
       animate={containerControls}
       className="fixed inset-0 z-100 flex items-center justify-center bg-surface pointer-events-none"
     >
-      <div
-        ref={wrapperRef}
-        className="flex items-center justify-center overflow-hidden"
-      >
-        <div ref={innerRef} className="flex">
-          <motion.span
-            initial={{ y: "100%", x: 0 }}
-            animate={p1Controls}
-            className="headline-lg tracking-wider text-on-background"
+      <div ref={wrapperRef} className="flex items-center justify-center">
+        <motion.div ref={innerRef} animate={wrapperControls} className="flex">
+          {/* Logo โครงสร้างเดียวกับ Brand */}
+          <svg
+            viewBox="0 0 100 100"
+            className="w-12 h-12 text-on-background"
+            fill="none"
+            xmlns="http://www.w3.org/2000/svg"
           >
-            P
-          </motion.span>
-          <motion.span
-            initial={{ y: "100%", x: 0 }}
-            animate={p2Controls}
-            className="headline-lg tracking-wider text-on-background"
-          >
-            P
-          </motion.span>
-        </div>
+            {/* Group 1 หลัก */}
+            <motion.g animate={g1Controls} fill="currentColor">
+              <rect x="20" y="20" width="10" height="60" />
+              <rect x="30" y="20" width="30" height="10" />
+              <rect x="30" y="45" width="30" height="10" />
+              <rect x="50" y="30" width="10" height="15" />
+            </motion.g>
+
+            {/* Group 2 Shadow (พออนิเมตแยกออกมา จะไปอยู่ที่ x:25, y:25) */}
+            <motion.g
+              animate={g2Controls}
+              fill="currentColor"
+              className="opacity-40"
+            >
+              <rect x="20" y="20" width="10" height="60" />
+              <rect x="30" y="20" width="30" height="10" />
+              <rect x="30" y="45" width="30" height="10" />
+              <rect x="50" y="30" width="10" height="15" />
+            </motion.g>
+          </svg>
+        </motion.div>
       </div>
     </motion.div>
   );

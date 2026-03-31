@@ -1,14 +1,15 @@
 import Link from "next/link";
+import { Logo } from "../Logo";
 
 const Brand = () => {
   return (
     <div className="flex items-center gap-2">
       <Link
         href="/"
-        className="headline-lg tracking-wider"
+        className="block w-12 h-12 text-on-background"
         title="Prapat Prapatsornmanu"
       >
-        PP
+        <Logo />
       </Link>
     </div>
   );
