@@ -60,8 +60,8 @@ const Stacks = ({}: React.ComponentProps<"section">) => {
     <section id="stacks" className="c-section">
       <div className="mx-auto px-8">
         <div className="space-y-5">
-          <h2 className="font-headline text-4xl md:text-5xl font-bold">
-            My <span className="text-primary italic">Knowledges</span>
+          <h2 className="font-headline text-4xl md:text-5xl font-bold text-primary">
+            Stacks
           </h2>
           <p className="text-on-surface-variant text-lg">
             Decade of experience optimizing for the edge, ensuring every

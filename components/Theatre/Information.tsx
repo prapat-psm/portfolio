@@ -34,24 +34,21 @@ const Information = () => {
       animate={isPreloadFinished ? "visible" : "hidden"}
       className="relative z-10 flex flex-col gap-6"
     >
-      <motion.div variants={itemVariants} className="flex items-center gap-2">
+      <motion.div
+        variants={itemVariants}
+        className="flex flex-wrap items-center gap-2"
+      >
         <p className="flex items-center gap-2 border border-outline rounded-full px-2 py-1">
           <span className="size-2 rounded-full animate-pulse bg-secondary" />
-          <span className="text-sm text-primary tracking-widest">
+          <span className="text-sm text-primary tracking-widest uppercase">
             SENIOR FRONTEND DEVELOPER
-          </span>
-        </p>
-        <p className="flex items-center gap-2 border border-outline rounded-full px-2 py-1">
-          <span className="size-2 rounded-full animate-pulse bg-secondary" />
-          <span className="text-sm text-primary tracking-widest">
-            Available for new opportunities
           </span>
         </p>
       </motion.div>
 
       <motion.h1
         variants={itemVariants}
-        className="text-5xl font-bold max-w-4xl text-on-background"
+        className="text-5xl font-semibold max-w-4xl text-on-background"
       >
         I&apos;m{" "}
         <span className="text-gradient">

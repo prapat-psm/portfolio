@@ -2,12 +2,12 @@
 
 import { cn } from "@/libs/cn";
 import Image from "next/image";
-import { motion } from "motion/react";
+import { motion, HTMLMotionProps } from "motion/react";
 import { usePreload } from "@/components/Providers";
 
-type PortraitProps = React.ComponentProps<"div">;
+type PortraitProps = HTMLMotionProps<"div">;
 
-const Portrait = ({ className, ...props }: PortraitProps) => {
+const Portrait = ({ className, ...restProps }: PortraitProps) => {
   const { isPreloadFinished } = usePreload();
 
   return (
@@ -16,18 +16,15 @@ const Portrait = ({ className, ...props }: PortraitProps) => {
       animate={isPreloadFinished ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
       transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
       className={cn("relative", className)}
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      {...(props as any)}
+      {...restProps}
     >
       <Image
-        src="/portrait.png"
+        src="/portrait.gif"
         alt="Prapat Prapatsornmanu"
         loading="eager"
-        width={500}
-        height={667}
-        className="object-center mx-auto object-cover"
-        // fill
-        // sizes="(max-width: 768px) 100vw, 500px"
+        width={900}
+        height={1200}
+        className="mx-auto "
         style={{
           imageRendering: "pixelated",
         }}

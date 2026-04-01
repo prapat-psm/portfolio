@@ -18,8 +18,8 @@
   --color-on-surface-variant: #a3aac4;
 
   /* Typography */
-  --font-manrope: var(--font-manrope), ui-sans-serif, system-ui, sans-serif;
-  --font-inter: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-pixelify-sans:
+    var(--font-pixelify-sans), ui-sans-serif, system-ui, sans-serif;
 
   /* Liquid Typography - Scaling from 375px to 3840px */
   --text-xs: clamp(0.75rem, 0.72rem + 0.13vw, 1rem);
@@ -44,7 +44,7 @@
 
 @layer base {
   body {
-    @apply bg-surface text-on-background font-inter antialiased;
+    @apply bg-surface text-on-background font-pixelify-sans antialiased;
   }
 }
 
@@ -66,6 +66,10 @@
 
   .c-section {
     @apply py-16 lg:py-32 bg-surface-container-low relative;
+  }
+
+  .c-container {
+    @apply mx-auto max-w-[1440px] px-8 lg:px-16;
   }
 
   .text-gradient {

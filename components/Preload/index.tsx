@@ -33,9 +33,8 @@ const Preload = () => {
 
       // 2. Animate G1 และ G2 สลับกันโผล่ขึ้นมา (แบบซ้อนทับกัน)
       const revealSpring: Transition = {
-        type: "spring",
-        stiffness: 100,
-        damping: 20,
+        type: "tween",
+        ease: "easeInOut",
         mass: 1,
       };
 
@@ -48,7 +47,7 @@ const Preload = () => {
 
       // 3. Animation แยกตัวเองออกมา
       const separateSpring: Transition = {
-        type: "spring",
+        type: "tween",
         stiffness: 70,
         damping: 15,
         mass: 1,
@@ -84,9 +83,11 @@ const Preload = () => {
       // 6. เคลื่อนย้าย Wrapper ตัว Container หลักขึ้นไปที่เป้าหมาย
       const moveSpring: Transition = {
         type: "spring",
-        stiffness: 50,
+        stiffness: 90,
         damping: 20,
         mass: 1,
+        ease: "easeInOut",
+        duration: 0.25,
       };
 
       await wrapperControls.start({
@@ -99,7 +100,7 @@ const Preload = () => {
       // 7. Dissolve ทั้งหน้าจอ
       await containerControls.start({
         opacity: 0,
-        transition: { duration: 0.5, ease: "easeInOut" },
+        transition: { duration: 0.25, ease: "easeInOut" },
       });
       if (!mounted) return;
 
@@ -133,7 +134,7 @@ const Preload = () => {
           {/* Logo โครงสร้างเดียวกับ Brand */}
           <svg
             viewBox="0 0 100 100"
-            className="w-12 h-12 text-on-background"
+            className="size-16 text-on-background"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"
           >
