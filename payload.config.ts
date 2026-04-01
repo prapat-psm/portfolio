@@ -1,9 +1,14 @@
+import path from "path";
+import { fileURLToPath } from "url";
 import sharp from "sharp";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { sqliteAdapter } from "@payloadcms/db-sqlite";
 import { buildConfig } from "payload";
 import { Media } from "./collections/Media";
 import { Projects } from "./collections/Projects";
+
+const filename = fileURLToPath(import.meta.url);
+const dirname = path.dirname(filename);
 
 export default buildConfig({
   // If you'd like to use Rich Text, pass your editor here
@@ -32,4 +37,7 @@ export default buildConfig({
   // This is optional - if you don't need to do these things,
   // you don't need it!
   sharp,
+  typescript: {
+    outputFile: path.resolve(dirname, "payload-types.ts"),
+  },
 });

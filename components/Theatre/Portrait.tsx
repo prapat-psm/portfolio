@@ -15,7 +15,7 @@ const Portrait = ({ className, ...props }: PortraitProps) => {
       initial={{ opacity: 0, x: 20 }}
       animate={isPreloadFinished ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
       transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
-      className={cn("relative aspect-3/4", className)}
+      className={cn("relative", className)}
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
       {...(props as any)}
     >
@@ -23,9 +23,11 @@ const Portrait = ({ className, ...props }: PortraitProps) => {
         src="/portrait.png"
         alt="Prapat Prapatsornmanu"
         loading="eager"
-        className="object-center object-cover"
-        fill
-        sizes="(max-width: 768px) 100vw, 500px"
+        width={500}
+        height={667}
+        className="object-center mx-auto object-cover"
+        // fill
+        // sizes="(max-width: 768px) 100vw, 500px"
         style={{
           imageRendering: "pixelated",
         }}

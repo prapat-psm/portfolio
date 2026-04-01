@@ -10,8 +10,12 @@ const Theatre = () => {
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-full lg:size-1/2 bg-primary/20 rounded-full blur-[120px] pointer-events-none" />
 
       <div className="flex items-center justify-between">
-        <Information />
-        <Portrait className="w-1/3" />
+        <div className="w-1/2">
+          <Information />
+        </div>
+        <div className="w-1/2">
+          <Portrait />
+        </div>
       </div>
     </section>
   );
