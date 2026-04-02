@@ -1,7 +1,7 @@
 "use client";
 
 import { motion, type Variants } from "motion/react";
-import { Button } from "../Button";
+import { Button } from "@/components/Button";
 import { usePreload } from "@/components/Providers";
 
 const containerVariants: Variants = {
@@ -32,44 +32,51 @@ const Information = () => {
       variants={containerVariants}
       initial="hidden"
       animate={isPreloadFinished ? "visible" : "hidden"}
-      className="relative z-10 flex flex-col gap-6"
+      className="relative z-10 flex flex-col gap-10"
     >
-      <motion.div
-        variants={itemVariants}
-        className="flex flex-wrap items-center gap-2"
-      >
-        <p className="flex items-center gap-2 border border-outline rounded-full px-2 py-1">
-          <span className="size-2 rounded-full animate-pulse bg-secondary" />
-          <span className="text-sm text-primary tracking-widest uppercase">
-            SENIOR FRONTEND DEVELOPER
+      <div className="space-y-6">
+        <motion.div
+          variants={itemVariants}
+          className="flex flex-wrap items-center gap-2"
+        >
+          <p className="flex items-center gap-2 rounded-md px-3 bg-surface-variant py-1">
+            <span className="size-2 rounded-full animate-pulse bg-green-500" />
+            <span className="text-sm text-primary">
+              Senior frontend developer
+            </span>
+          </p>
+        </motion.div>
+
+        <motion.h1
+          variants={itemVariants}
+          className="text-5xl font-semibold text-on-background"
+        >
+          I&apos;m{" "}
+          <span className="text-gradient">
+            Prapat
+            <br />
+            Prapatsornmanu
           </span>
-        </p>
-      </motion.div>
+        </motion.h1>
 
-      <motion.h1
-        variants={itemVariants}
-        className="text-5xl font-semibold max-w-4xl text-on-background"
-      >
-        I&apos;m{" "}
-        <span className="text-gradient">
-          Prapat
-          <br />
-          Prapatsornmanu
-        </span>
-      </motion.h1>
+        <motion.p
+          variants={itemVariants}
+          className="text-lg text-on-surface-variant"
+        >
+          Senior Frontend Expert specializing in high-performance digital
+          experiences. Engineering precision-grade interfaces with Next.js,
+          Framer Motion, and scalable architecture. Over a decade of frontend
+          leadership.
+        </motion.p>
+      </div>
 
-      <motion.p
-        variants={itemVariants}
-        className="body-lg max-w-xl text-on-surface-variant leading-relaxed"
-      >
-        Senior Frontend Expert specializing in high-performance digital
-        experiences. Engineering precision-grade interfaces with Next.js, Framer
-        Motion, and scalable architecture. Over a decade of frontend leadership.
-      </motion.p>
-
-      <motion.div variants={itemVariants} className="flex gap-6 mt-4">
-        <Button>View Projects</Button>
-        <Button variants="outline">Tech Stacks</Button>
+      <motion.div variants={itemVariants} className="flex gap-5">
+        <Button href="#projects" variants="primary-dim">
+          View Projects
+        </Button>
+        <Button href="#contact" variants="outline">
+          Contact
+        </Button>
       </motion.div>
     </motion.div>
   );

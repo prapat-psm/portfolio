@@ -64,16 +64,83 @@
     }
   }
 
+  .btn-pixel {
+    --color-base: var(--color-primary);
+
+    box-shadow:
+      0px 5px var(--color-base),
+      0px -5px var(--color-base),
+      5px 0px var(--color-base),
+      -5px 0px var(--color-base),
+      0px 10px color-mix(in srgb, var(--color-base) 40%, transparent),
+      5px 5px color-mix(in srgb, var(--color-base) 40%, transparent),
+      -5px 5px color-mix(in srgb, var(--color-base) 40%, transparent),
+      inset 0px 5px color-mix(in srgb, var(--color-white) 10%, transparent),
+      inset 0px -5px color-mix(in srgb, var(--color-white) 30%, transparent);
+
+    @apply bg-(--color-base) text-on-background px-6 h-10 cursor-pointer flex items-center font-semibold justify-center transition-transform;
+
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow:
+        0px 5px var(--color-base),
+        0px -5px var(--color-base),
+        5px 0px var(--color-base),
+        -5px 0px var(--color-base),
+        0px 10px color-mix(in srgb, var(--color-base) 40%, transparent),
+        5px 5px color-mix(in srgb, var(--color-base) 40%, transparent),
+        -5px 5px color-mix(in srgb, var(--color-base) 40%, transparent),
+        inset 0px 5px color-mix(in srgb, var(--color-white) 10%, transparent),
+        inset 0px -5px color-mix(in srgb, var(--color-white) 30%, transparent);
+    }
+
+    &.btn-pixel--secondary {
+      --color-base: var(--color-secondary);
+    }
+
+    &.btn-pixel--tertiary {
+      --color-base: var(--color-tertiary);
+    }
+
+    &.btn-pixel--outline {
+      --color-base: var(--color-outline);
+    }
+
+    &.btn-pixel--primary-dim {
+      --color-base: var(--color-primary-dim);
+    }
+
+    &.btn-pixel--small {
+      @apply px-3 h-8;
+    }
+
+    &:active {
+      transform: translateY(5px);
+      box-shadow:
+        0px 5px var(--color-base),
+        0px -5px var(--color-base),
+        5px 0px var(--color-base),
+        -5px 0px var(--color-base),
+        inset 0px 5px color-mix(in srgb, var(--color-base) 40%, transparent),
+        inset 0px 10px color-mix(in srgb, var(--color-base) 40%, transparent),
+        inset 0px -5px color-mix(in srgb, var(--color-base) 40%, transparent);
+    }
+  }
+
   .c-section {
-    @apply py-16 lg:py-32 bg-surface-container-low relative;
+    @apply py-20 lg:py-30 bg-surface-container-low relative;
   }
 
   .c-container {
-    @apply mx-auto max-w-[1440px] px-8 lg:px-16;
+    @apply mx-auto max-w-400 px-6 lg:px-10;
   }
 
   .text-gradient {
     @apply text-transparent bg-clip-text bg-linear-to-r from-primary to-primary-dim;
+  }
+
+  .text-gradient-secondary {
+    @apply text-transparent bg-clip-text bg-linear-to-r from-secondary to-primary-dim;
   }
 }
 

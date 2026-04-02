@@ -1,43 +1,52 @@
+"use client";
+
 import { cn } from "@/libs/cn";
+import Link from "next/link";
 
 type ButtonVariants =
   | "primary"
   | "secondary"
   | "tertiary"
   | "outline"
-  | "ghost";
+  | "primary-dim";
 
-type ButtonProps = React.ComponentProps<"button"> & {
+type ButtonProps = React.ComponentProps<typeof Link> & {
   variants?: ButtonVariants;
 };
 
 const Button = ({
   className,
   children,
+  href,
   variants = "primary",
-  type = "button",
   ...restProps
 }: ButtonProps) => {
   const variantClass: Record<ButtonVariants, string> = {
-    primary: "bg-primary text-on-primary-fixed",
-    secondary: "bg-secondary text-on-secondary-fixed",
-    tertiary: "bg-tertiary text-on-tertiary-fixed",
-    outline: "bg-outline text-on-outline-fixed",
-    ghost: "bg-ghost text-on-ghost-fixed",
+    primary: "btn-pixel",
+    secondary: "btn-pixel btn-pixel--secondary",
+    tertiary: "btn-pixel btn-pixel--tertiary",
+    outline: "btn-pixel btn-pixel--outline",
+    "primary-dim": "btn-pixel btn-pixel--primary-dim",
+  };
+
+  const handleClickToScroll = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    e.preventDefault();
+    const target = document.querySelector(href as string);
+
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth" });
+    }
   };
 
   return (
-    <button
-      type={type}
-      className={cn(
-        "px-8 h-12 flex items-center font-medium justify-center rounded-full transition-all text-md hover:shadow-neon",
-        variantClass[variants],
-        className,
-      )}
+    <Link
+      href={href}
+      className={cn(variantClass[variants], className)}
+      onClick={handleClickToScroll}
       {...restProps}
     >
       {children}
-    </button>
+    </Link>
   );
 };
 

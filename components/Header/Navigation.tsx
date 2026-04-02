@@ -7,7 +7,7 @@ const navItems = ["projects", "stacks", "contact"];
 
 const Navigation = () => {
   return (
-    <nav className="flex items-center gap-8">
+    <nav className="max-lg:hidden flex items-center gap-8">
       <ul className="flex items-center gap-x-2">
         {navItems.map((item) => (
           <NavItem key={item} label={item} />

@@ -2,6 +2,7 @@ import config from "@payload-config";
 import { getPayload } from "payload";
 import Link from "next/link";
 import Image from "next/image";
+import { SectionHeader } from "../SectionHeader";
 
 const Projects = async ({}: React.ComponentProps<"section">) => {
   const payload = await getPayload({ config });
@@ -15,20 +16,15 @@ const Projects = async ({}: React.ComponentProps<"section">) => {
   return (
     <section
       id="projects"
-      className="py-24 px-8 min-h-screen bg-surface-container text-on-surface"
+      className="c-section bg-surface-container text-on-surface"
     >
-      <div className="max-w-7xl mx-auto flex flex-col gap-16">
-        <header className="flex flex-col gap-4 items-center">
-          <h2 className="headline-lg tracking-tighter text-4xl sm:text-5xl md:text-6xl text-center">
-            Selected Works
-          </h2>
-          <p className="body-lg text-on-surface-variant max-w-2xl text-center">
-            A showcase of recent digital experiences and technical solutions
-            crafted to solve complex problems with elegant architecture.
-          </p>
-        </header>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-8 lg:gap-12">
+      <div className="c-container space-y-10">
+        <SectionHeader
+          title="Projects"
+          description="A showcase of recent digital experiences and technical solutions crafted to solve complex problems with elegant architecture."
+          variants="secondary"
+        />
+        <div className="py-8 grid grid-cols-1 md:grid-cols-2 gap-5">
           {projects.map((project) => {
             const imageUrl =
               project.featuredImage && typeof project.featuredImage === "object"
@@ -43,9 +39,9 @@ const Projects = async ({}: React.ComponentProps<"section">) => {
               <Link
                 href={`/projects/${project.slug}`}
                 key={project.id}
-                className="group flex flex-col gap-6"
+                className="group flex flex-col gap-2"
               >
-                <div className="aspect-video bg-surface-variant rounded-2xl overflow-hidden relative border border-outline-variant/50">
+                <div className="aspect-video bg-primary-dim rounded-md overflow-hidden relative">
                   {imageUrl && (
                     <Image
                       src={imageUrl}
@@ -59,24 +55,12 @@ const Projects = async ({}: React.ComponentProps<"section">) => {
                   <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10" />
                 </div>
 
-                <div className="flex flex-col gap-2 relative z-20 px-2">
-                  <div className="flex justify-between items-center text-on-surface-variant label-md">
-                    <span>
-                      {project.completionDate
-                        ? new Date(project.completionDate).getFullYear()
-                        : "Recent"}
-                    </span>
-                    {project.isFeatured && (
-                      <span className="text-primary tracking-widest uppercase">
-                        Featured
-                      </span>
-                    )}
-                  </div>
-                  <h3 className="headline-md tracking-tight group-hover:text-primary transition-colors text-2xl font-light">
+                <div className="flex flex-col gap-2 relative z-20">
+                  <h3 className="text-2xl group-hover:text-primary transition-colors font-semibold">
                     {project.title}
                   </h3>
 
-                  {project.techStack && project.techStack.length > 0 && (
+                  {/* {project.techStack && project.techStack.length > 0 && (
                     <div className="flex text-on-surface-variant gap-3 label-sm opacity-80 mt-2 flex-wrap">
                       {project.techStack
                         .slice(0, 3)
@@ -90,6 +74,21 @@ const Projects = async ({}: React.ComponentProps<"section">) => {
                         ))}
                       {project.techStack.length > 3 && (
                         <span>+{project.techStack.length - 3}</span>
+                      )}
+                    </div>
+                  )} */}
+                  {project.techStack && project.techStack.length > 0 && (
+                    <div className="flex flex-wrap gap-1">
+                      {" "}
+                      {project.techStack.map(
+                        (t: { techName: string }, i: number) => (
+                          <span
+                            key={i}
+                            className="px-2 py-1 bg-surface-variant rounded-md text-xs font-semibold text-on-surface-variant"
+                          >
+                            {t.techName}
+                          </span>
+                        ),
                       )}
                     </div>
                   )}
