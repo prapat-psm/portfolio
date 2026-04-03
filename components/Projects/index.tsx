@@ -4,7 +4,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { SectionHeader } from "../SectionHeader";
 
-const Projects = async ({}: React.ComponentProps<"section">) => {
+const Projects = async ({ ...restProps }: React.ComponentProps<"section">) => {
   const payload = await getPayload({ config });
 
   const { docs: projects } = await payload.find({
@@ -19,6 +19,7 @@ const Projects = async ({}: React.ComponentProps<"section">) => {
     <section
       id="projects"
       className="c-section bg-surface-container text-on-surface"
+      {...restProps}
     >
       <div className="c-container space-y-10">
         <SectionHeader
