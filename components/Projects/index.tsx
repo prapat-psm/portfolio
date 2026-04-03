@@ -13,6 +13,8 @@ const Projects = async ({}: React.ComponentProps<"section">) => {
     limit: 4, // Show 4 projects maximum
   });
 
+  if (projects.length === 0) return null;
+
   return (
     <section
       id="projects"
