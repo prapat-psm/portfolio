@@ -19,6 +19,10 @@ export const ProjectCard = ({ project, onOpen }: ProjectCardProps) => {
       ? project.featuredImage.alt || project.title
       : project.title;
 
+  const techStack = project.techStack
+    ? project.techStack.map((t) => (typeof t === "object" ? { ...t } : t))
+    : [];
+
   return (
     <motion.button
       layout
@@ -55,16 +59,20 @@ export const ProjectCard = ({ project, onOpen }: ProjectCardProps) => {
           {project.shortDescription}
         </p>
 
-        {project.techStack && project.techStack.length > 0 && (
+        {techStack && (
           <div className="flex flex-wrap gap-2">
-            {project.techStack.map((t: { techName: string }, i: number) => (
-              <span
-                key={i}
-                className="px-2 py-1 bg-surface-variant/40 rounded-lg text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider"
-              >
-                {t.techName}
-              </span>
-            ))}
+            {techStack?.map((t) => {
+              if (typeof t !== "object") return null;
+
+              return (
+                <span
+                  key={t.id}
+                  className="px-3 py-1.5 rounded-xl bg-primary/10 text-primary border border-primary/20 text-[10px] font-black uppercase tracking-widest"
+                >
+                  {t.name}
+                </span>
+              );
+            })}
           </div>
         )}
       </div>
