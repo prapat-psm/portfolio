@@ -150,7 +150,7 @@ export interface Project {
   id: number;
   title: string;
   /**
-   * URL slug (เช่น my-awesome-project)
+   * URL slug (auto-generated from title)
    */
   slug: string;
   /**
@@ -158,14 +158,9 @@ export interface Project {
    */
   featuredImage: number | Media;
   /**
-   * เพิ่มรายชื่อเครื่องมือและเทคโนโลยีที่ใช้ (เช่น React, Next.js, Tailwind CSS)
+   * เลือกเทคโนโลยีที่ใช้ (ดึงจากคอลเลกชัน Skills)
    */
-  techStack?:
-    | {
-        techName: string;
-        id?: string | null;
-      }[]
-    | null;
+  techStack?: (number | Skill)[] | null;
   /**
    * คำอธิบายสั้นๆ สำหรับแสดงบนหน้า Card ของโปรเจค
    */
@@ -190,12 +185,7 @@ export interface Project {
   } | null;
   links?: {
     websiteUrl?: string | null;
-    githubUrl?: string | null;
   };
-  /**
-   * เลือกเพื่อให้แสดงเป็นโปรเจคแนะนำในหน้าแรก
-   */
-  isFeatured?: boolean | null;
   completionDate?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -395,21 +385,14 @@ export interface ProjectsSelect<T extends boolean = true> {
   title?: T;
   slug?: T;
   featuredImage?: T;
-  techStack?:
-    | T
-    | {
-        techName?: T;
-        id?: T;
-      };
+  techStack?: T;
   shortDescription?: T;
   content?: T;
   links?:
     | T
     | {
         websiteUrl?: T;
-        githubUrl?: T;
       };
-  isFeatured?: T;
   completionDate?: T;
   updatedAt?: T;
   createdAt?: T;

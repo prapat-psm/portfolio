@@ -1,6 +1,8 @@
 export { Alert } from "./Alert";
 export { Bracket } from "./Bracket";
 export { Checked } from "./Checked";
+export { Close } from "./Close";
+export { ExternalLink } from "./ExternalLink";
 export { Database } from "./Database";
 export { Download } from "./Download";
 export { Terminal } from "./Terminal";

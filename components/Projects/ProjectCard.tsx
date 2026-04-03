@@ -3,13 +3,13 @@
 import { Project } from "@/payload-types";
 import { motion } from "framer-motion";
 import Image from "next/image";
-import Link from "next/link";
 
 interface ProjectCardProps {
   project: Project;
+  onOpen?: () => void;
 }
 
-export const ProjectCard = ({ project }: ProjectCardProps) => {
+export const ProjectCard = ({ project, onOpen }: ProjectCardProps) => {
   const imageUrl =
     project.featuredImage && typeof project.featuredImage === "object"
       ? project.featuredImage.url
@@ -20,53 +20,54 @@ export const ProjectCard = ({ project }: ProjectCardProps) => {
       : project.title;
 
   return (
-    <motion.div
-      variants={{
-        hidden: { opacity: 0, y: 20 },
-        visible: {
-          opacity: 1,
-          y: 0,
-          transition: { duration: 0.5, ease: "easeOut" },
-        },
-      }}
+    <motion.button
+      layout
+      initial={{ opacity: 0, y: 30 }}
+      animate={{ opacity: 1, y: 0 }}
+      exit={{ opacity: 0, scale: 0.95 }}
+      transition={{ duration: 0.6, type: "spring", bounce: 0.2 }}
+      onClick={() => onOpen?.()}
+      className="group flex flex-col gap-4 text-left w-full hover:-translate-y-2 transition-transform"
     >
-      <Link
-        href={`/projects/${project.slug}`}
-        className="group flex flex-col gap-2 transition-transform duration-300 hover:-translate-y-2 active:translate-y-0"
-      >
-        <div className="aspect-video bg-primary-dim rounded-md overflow-hidden relative group-hover:border group-hover:border-primary-dim shadow-sm">
-          {imageUrl && (
-            <Image
-              src={imageUrl}
-              alt={imageAlt}
-              fill
-              loading="eager"
-              sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-              className="object-cover"
-            />
-          )}
-          {/* Overlay gradient on hover */}
-          <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10" />
-        </div>
+      <div className="aspect-video bg-surface-variant/20 border border-transparent rounded-md overflow-hidden relative group-hover:border-primary-dim group-hover:ring-1 group-hover:ring-primary-dim">
+        {imageUrl && (
+          <Image
+            src={imageUrl}
+            alt={imageAlt}
+            fill
+            sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+            className="object-cover "
+          />
+        )}
+        {/* Overlay gradient on hover */}
+        {/* <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-background/90 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500 pointer-events-none z-10" />
+        <div className="absolute top-4 right-4 bg-surface-bright/50 backdrop-blur-md px-3 py-1 rounded-full text-[10px] uppercase font-bold tracking-widest text-primary border border-outline/10 opacity-0 group-hover:opacity-100 transition-all duration-500 translate-y-2 group-hover:translate-y-0">
+          Open Case Study
+        </div> */}
+      </div>
 
-        <div className="flex flex-col gap-2 relative z-20 pr-5 lg:pr-10">
-          <h3 className="text-2xl group-hover:text-primary transition-colors font-semibold">
-            {project.title}
-          </h3>
-          {project.techStack && project.techStack.length > 0 && (
-            <div className="flex flex-wrap gap-1">
-              {project.techStack.map((t: { techName: string }, i: number) => (
-                <span
-                  key={i}
-                  className="px-2 py-1 bg-surface-variant rounded-md text-xs font-semibold text-on-surface-variant"
-                >
-                  {t.techName}
-                </span>
-              ))}
-            </div>
-          )}
-        </div>
-      </Link>
-    </motion.div>
+      <div className="flex flex-col gap-3 relative z-20 pr-5">
+        <h3 className="text-2xl group-hover:text-primary transition-colors font-bold overflow-hidden text-ellipsis whitespace-nowrap">
+          {project.title}
+        </h3>
+
+        <p className="text-md text-on-surface-variant line-clamp-3">
+          {project.shortDescription}
+        </p>
+
+        {project.techStack && project.techStack.length > 0 && (
+          <div className="flex flex-wrap gap-2">
+            {project.techStack.map((t: { techName: string }, i: number) => (
+              <span
+                key={i}
+                className="px-2 py-1 bg-surface-variant/40 rounded-lg text-[11px] font-semibold text-on-surface-variant uppercase tracking-wider"
+              >
+                {t.techName}
+              </span>
+            ))}
+          </div>
+        )}
+      </div>
+    </motion.button>
   );
 };

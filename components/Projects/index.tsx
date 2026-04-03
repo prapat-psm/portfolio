@@ -1,16 +1,14 @@
 import { getPayload } from "payload";
 import config from "@payload-config";
 import { SectionHeader } from "../SectionHeader";
-import { Button } from "../Button";
 import { ProjectList } from "./ProjectList";
 
 const Projects = async ({ ...restProps }: React.ComponentProps<"section">) => {
   const payload = await getPayload({ config });
 
-  const { docs: projects, totalDocs } = await payload.find({
+  const { docs: projects } = await payload.find({
     collection: "projects",
-    sort: "-completionDate", // Sort by newest first
-    limit: 6, // Show 6 projects maximum on homepage
+    sort: "-completionDate",
   });
 
   if (projects.length === 0) return null;
@@ -28,15 +26,7 @@ const Projects = async ({ ...restProps }: React.ComponentProps<"section">) => {
           variants="secondary"
         />
 
-        <ProjectList projects={projects} />
-
-        {totalDocs > 6 && (
-          <div className="flex justify-center mt-10">
-            <Button href="/projects" variants="primary-dim">
-              View All Projects
-            </Button>
-          </div>
-        )}
+        <ProjectList initialProjects={projects} />
       </div>
     </section>
   );
