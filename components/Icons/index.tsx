@@ -2,6 +2,7 @@ export { Alert } from "./Alert";
 export { Bracket } from "./Bracket";
 export { Checked } from "./Checked";
 export { Database } from "./Database";
+export { Download } from "./Download";
 export { Terminal } from "./Terminal";
 export { Blocks } from "./Blocks";
 export { Sparkles } from "./Sparkles";

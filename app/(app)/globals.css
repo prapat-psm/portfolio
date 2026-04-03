@@ -78,7 +78,7 @@
       inset 0px 5px color-mix(in srgb, var(--color-white) 10%, transparent),
       inset 0px -5px color-mix(in srgb, var(--color-white) 30%, transparent);
 
-    @apply bg-(--color-base) text-on-background px-6 h-10 cursor-pointer flex items-center font-semibold justify-center transition-transform;
+    @apply bg-(--color-base) text-on-background px-5 h-10 cursor-pointer flex items-center font-semibold justify-center transition-transform;
 
     &:hover {
       transform: translateY(-2px);
@@ -95,7 +95,7 @@
     }
 
     &.btn-pixel--secondary {
-      --color-base: var(--color-secondary);
+      --color-base: var(--color-blue-400);
     }
 
     &.btn-pixel--tertiary {
@@ -111,7 +111,7 @@
     }
 
     &.btn-pixel--small {
-      @apply px-3 h-8;
+      @apply px-5 h-8;
     }
 
     &:active {
@@ -128,7 +128,7 @@
   }
 
   .c-section {
-    @apply py-20 lg:py-30 bg-surface-container-low relative;
+    @apply py-12 lg:py-30 relative;
   }
 
   .c-container {
