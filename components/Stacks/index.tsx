@@ -81,10 +81,10 @@ const Stacks = ({}: React.ComponentProps<"section">) => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ delay: idx * 0.1 }}
-              className="col-auto bg-surface-container p-8 rounded-md border border-outline-variant/10 translate-y-0 hover:ring-1 hover:ring-primary-dim hover:border-primary-dim hover:-translate-y-2 transition-all group flex flex-col h-full space-y-5"
+              className="col-auto pixel-card p-8 translate-y-0 hover:ring-1 hover:ring-primary-dim hover:-translate-y-2 transition-all group flex flex-col h-full space-y-5"
             >
               <div
-                className={`size-12 rounded-xs flex items-center justify-center ${skill.color} group-hover:scale-110 transition-transform`}
+                className={`size-12 flex items-center justify-center ${skill.color} group-hover:scale-110 transition-transform pixel-tag`}
               >
                 {skill.icon}
               </div>
@@ -95,7 +95,7 @@ const Stacks = ({}: React.ComponentProps<"section">) => {
                 {skill.tags.map((tag) => (
                   <span
                     key={tag}
-                    className="px-2 py-1 bg-surface-variant rounded-md text-xs font-semibold text-on-surface-variant"
+                    className="pixel-tag bg-surface-variant text-on-surface-variant"
                   >
                     {tag}
                   </span>

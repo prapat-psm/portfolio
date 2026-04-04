@@ -41,7 +41,7 @@ const Projects = async ({}: React.ComponentProps<"section">) => {
                 key={project.id}
                 className="group flex flex-col gap-2"
               >
-                <div className="aspect-video bg-primary-dim rounded-md overflow-hidden relative">
+                <div className="aspect-video bg-primary-dim pixel-card overflow-hidden relative group-hover:shadow-[0_8px_0_var(--color-primary-dim)] transition-shadow">
                   {imageUrl && (
                     <Image
                       src={imageUrl}
@@ -56,27 +56,10 @@ const Projects = async ({}: React.ComponentProps<"section">) => {
                 </div>
 
                 <div className="flex flex-col gap-2 relative z-20">
-                  <h3 className="text-2xl group-hover:text-primary transition-colors font-semibold">
+                  <h3 className="text-2xl group-hover:text-primary transition-colors font-bold mt-2">
                     {project.title}
                   </h3>
 
-                  {/* {project.techStack && project.techStack.length > 0 && (
-                    <div className="flex text-on-surface-variant gap-3 label-sm opacity-80 mt-2 flex-wrap">
-                      {project.techStack
-                        .slice(0, 3)
-                        .map((t: { techName: string }, i: number) => (
-                          <span key={i} className="flex items-center gap-2">
-                            {t.techName}
-                            {i < Math.min(project.techStack!.length, 3) - 1 && (
-                              <span className="text-outline">•</span>
-                            )}
-                          </span>
-                        ))}
-                      {project.techStack.length > 3 && (
-                        <span>+{project.techStack.length - 3}</span>
-                      )}
-                    </div>
-                  )} */}
                   {project.techStack && project.techStack.length > 0 && (
                     <div className="flex flex-wrap gap-1">
                       {" "}
@@ -84,7 +67,7 @@ const Projects = async ({}: React.ComponentProps<"section">) => {
                         (t: { techName: string }, i: number) => (
                           <span
                             key={i}
-                            className="px-2 py-1 bg-surface-variant rounded-md text-xs font-semibold text-on-surface-variant"
+                            className="pixel-tag bg-surface-variant text-on-surface-variant"
                           >
                             {t.techName}
                           </span>

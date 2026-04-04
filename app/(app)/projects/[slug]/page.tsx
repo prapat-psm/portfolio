@@ -54,23 +54,23 @@ export default async function ProjectDetail({ params }: Props) {
         </Link>
         
         <header className="flex flex-col gap-4">
-          <div className="flex flex-wrap items-center gap-3 label-md text-on-surface-variant">
+          <div className="flex flex-wrap items-center gap-3 label-md text-on-surface-variant font-bold">
             {project.completionDate && (
-              <span className="bg-surface-variant px-3 py-1 items-center justify-center rounded-full">
+              <span className="pixel-tag bg-surface-variant">
                 {new Date(project.completionDate).getFullYear()}
               </span>
             )}
             {project.isFeatured && (
-              <span className="bg-primary/10 text-primary px-3 py-1 items-center justify-center rounded-full flex gap-1">
+              <span className="pixel-tag bg-primary/10 text-primary flex gap-1">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/></svg>
                 Featured
               </span>
             )}
           </div>
-          <h1 className="headline-lg tracking-tighter sm:text-5xl md:text-6xl text-on-background">
+          <h1 className="headline-lg tracking-tighter sm:text-5xl md:text-6xl text-on-background font-bold">
             {project.title}
           </h1>
-          <p className="body-lg text-on-surface-variant max-w-2xl mt-4 text-xl">
+          <p className="body-lg text-on-surface-variant max-w-2xl mt-4 text-xl font-medium">
             {project.shortDescription}
           </p>
         </header>
@@ -82,7 +82,7 @@ export default async function ProjectDetail({ params }: Props) {
                 href={project.links.websiteUrl} 
                 target="_blank" 
                 rel="noreferrer" 
-                className="px-6 py-3 bg-primary text-on-primary rounded-full label-md hover:bg-primary-stretch transition-colors inline-block"
+                className="btn-pixel label-md inline-block"
               >
                 Visit Site
               </a>
@@ -92,9 +92,9 @@ export default async function ProjectDetail({ params }: Props) {
                 href={project.links.githubUrl} 
                 target="_blank" 
                 rel="noreferrer" 
-                className="px-6 py-3 bg-surface-variant text-on-surface rounded-full label-md hover:bg-surface-container-highest transition-colors inline-flex items-center gap-2"
+                className="btn-pixel btn-pixel--outline label-md inline-flex items-center gap-2"
               >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
+                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="square" strokeLinejoin="miter"><path d="M9 19c-5 1.5-5-2.5-7-3m14 6v-3.87a3.37 3.37 0 0 0-.94-2.61c3.14-.35 6.44-1.54 6.44-7A5.44 5.44 0 0 0 20 4.77 5.07 5.07 0 0 0 19.91 1S18.73.65 16 2.48a13.38 13.38 0 0 0-7 0C6.27.65 5.09 1 5.09 1A5.07 5.07 0 0 0 5 4.77a5.44 5.44 0 0 0-1.5 3.78c0 5.42 3.3 6.61 6.44 7A3.37 3.37 0 0 0 9 18.13V22"></path></svg>
                 GitHub
               </a>
             )}
@@ -102,7 +102,7 @@ export default async function ProjectDetail({ params }: Props) {
         )}
 
         {imageUrl && (
-          <div className="relative aspect-video w-full rounded-2xl overflow-hidden bg-surface-variant ring-1 ring-outline-variant">
+          <div className="relative aspect-video w-full pixel-card overflow-hidden bg-surface-variant shadow-[0_8px_0_var(--color-outline-variant)]">
             <Image
               src={imageUrl}
               alt={imageAlt}
@@ -114,13 +114,13 @@ export default async function ProjectDetail({ params }: Props) {
         )}
 
         {project.techStack && project.techStack.length > 0 && (
-          <div className="flex flex-col gap-4">
-            <h3 className="label-lg text-on-surface">Technologies</h3>
+          <div className="flex flex-col gap-4 mt-6">
+            <h3 className="label-lg text-on-surface font-bold">Technologies</h3>
             <div className="flex flex-wrap gap-2">
               {project.techStack.map((tech: { techName: string }, idx: number) => (
                 <span
                   key={idx}
-                  className="px-4 py-2 border border-outline-variant rounded-full label-md text-on-surface-variant bg-surface"
+                  className="pixel-tag text-on-surface-variant bg-surface"
                 >
                   {tech.techName}
                 </span>

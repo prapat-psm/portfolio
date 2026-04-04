@@ -29,7 +29,7 @@ const SectionHeader = ({
       <div className="col-auto lg:col-span-4 lg:col-start-2 space-y-5">
         <h2
           className={cn(
-            "font-headline text-4xl md:text-5xl font-semibold",
+            "font-press-start-2p text-xl md:text-2xl font-bold tracking-tight uppercase",
             headingClass[variants],
           )}
         >

@@ -8,6 +8,7 @@ import { Media } from "./collections/Media";
 import { Projects } from "./collections/Projects";
 import { Skills } from "./collections/Skills";
 import { Stacks } from "./collections/Stacks";
+import { WorkExperiences } from "./collections/WorkExperiences";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -19,7 +20,7 @@ export default buildConfig({
   admin: {},
 
   // Define and configure your collections in this array
-  collections: [Media, Projects, Skills, Stacks],
+  collections: [Media, Projects, Skills, Stacks, WorkExperiences],
 
   // Your Payload secret - should be a complex and secure string, unguessable
   secret: process.env.PAYLOAD_SECRET || "",

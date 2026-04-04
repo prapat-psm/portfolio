@@ -1,6 +1,6 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Pixelify_Sans } from "next/font/google";
+import { Pixelify_Sans, Press_Start_2P } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { Preload } from "@/components/Preload";
@@ -11,6 +11,12 @@ const pixelifySans = Pixelify_Sans({
   variable: "--font-pixelify-sans",
   subsets: ["latin"],
   weight: ["400", "500", "600", "700"],
+});
+
+const pressStart2P = Press_Start_2P({
+  variable: "--font-press-start-2p",
+  subsets: ["latin"],
+  weight: ["400"],
 });
 
 export const metadata: Metadata = {
@@ -25,7 +31,9 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className={`${pixelifySans.variable} h-full antialiased`}>
+    <html
+      lang="en"
+      className={`${pixelifySans.variable} ${pressStart2P.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-surface text-on-background">
         <PreloadProvider>
           <Preload />

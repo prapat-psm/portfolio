@@ -39,9 +39,9 @@ const Information = () => {
           variants={itemVariants}
           className="flex flex-wrap items-center gap-2"
         >
-          <p className="flex items-center gap-2 rounded-md px-3 bg-surface-variant py-1">
-            <span className="size-2 rounded-full animate-pulse bg-green-500" />
-            <span className="text-sm text-primary">
+          <p className="flex items-center gap-2 pixel-tag bg-surface-variant">
+            <span className="size-2 animate-pulse bg-green-500" />
+            <span className="text-sm text-primary font-bold">
               Senior frontend developer
             </span>
           </p>
@@ -49,13 +49,12 @@ const Information = () => {
 
         <motion.h1
           variants={itemVariants}
-          className="text-5xl font-semibold text-on-background"
+          className="text-3xl md:text-4xl font-bold text-on-background font-press-start-2p uppercase leading-tight"
         >
           I&apos;m{" "}
+          <br className="md:hidden" />
           <span className="text-gradient">
             Prapat
-            <br />
-            Prapatsornmanu
           </span>
         </motion.h1>
 

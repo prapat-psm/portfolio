@@ -20,6 +20,8 @@
   /* Typography */
   --font-pixelify-sans:
     var(--font-pixelify-sans), ui-sans-serif, system-ui, sans-serif;
+  --font-press-start-2p:
+    var(--font-press-start-2p), cursive;
 
   /* Liquid Typography - Scaling from 375px to 3840px */
   --text-xs: clamp(0.75rem, 0.72rem + 0.13vw, 1rem);
@@ -50,48 +52,38 @@
 
 @layer components {
   .btn-primary {
-    @apply inline-flex items-center justify-center px-8 py-3 rounded-full font-bold;
-    background: linear-gradient(
-      135deg,
-      var(--color-primary),
-      var(--color-primary-dim)
-    );
-    transition: all 0.3s ease;
-
-    &:hover {
-      @apply shadow-neon;
-      transform: translateY(-2px);
-    }
+    @extend .btn-pixel;
+    @apply border-0 rounded-none;
   }
 
   .btn-pixel {
     --color-base: var(--color-primary);
 
     box-shadow:
-      0px 5px var(--color-base),
-      0px -5px var(--color-base),
-      5px 0px var(--color-base),
-      -5px 0px var(--color-base),
-      0px 10px color-mix(in srgb, var(--color-base) 40%, transparent),
-      5px 5px color-mix(in srgb, var(--color-base) 40%, transparent),
-      -5px 5px color-mix(in srgb, var(--color-base) 40%, transparent),
-      inset 0px 5px color-mix(in srgb, var(--color-white) 10%, transparent),
-      inset 0px -5px color-mix(in srgb, var(--color-white) 30%, transparent);
+      0px 4px var(--color-base),
+      0px -4px var(--color-base),
+      4px 0px var(--color-base),
+      -4px 0px var(--color-base),
+      0px 8px color-mix(in srgb, var(--color-base) 40%, transparent),
+      4px 4px color-mix(in srgb, var(--color-base) 40%, transparent),
+      -4px 4px color-mix(in srgb, var(--color-base) 40%, transparent),
+      inset 0px 4px color-mix(in srgb, white 10%, transparent),
+      inset 0px -4px color-mix(in srgb, black 30%, transparent);
 
-    @apply bg-(--color-base) text-on-background px-6 h-10 cursor-pointer flex items-center font-semibold justify-center transition-transform;
+    @apply bg-(--color-base) text-on-background px-6 h-10 cursor-pointer flex items-center font-bold justify-center transition-transform rounded-none;
 
     &:hover {
       transform: translateY(-2px);
       box-shadow:
-        0px 5px var(--color-base),
-        0px -5px var(--color-base),
-        5px 0px var(--color-base),
-        -5px 0px var(--color-base),
-        0px 10px color-mix(in srgb, var(--color-base) 40%, transparent),
-        5px 5px color-mix(in srgb, var(--color-base) 40%, transparent),
-        -5px 5px color-mix(in srgb, var(--color-base) 40%, transparent),
-        inset 0px 5px color-mix(in srgb, var(--color-white) 10%, transparent),
-        inset 0px -5px color-mix(in srgb, var(--color-white) 30%, transparent);
+        0px 4px var(--color-base),
+        0px -4px var(--color-base),
+        4px 0px var(--color-base),
+        -4px 0px var(--color-base),
+        0px 8px color-mix(in srgb, var(--color-base) 40%, transparent),
+        4px 4px color-mix(in srgb, var(--color-base) 40%, transparent),
+        -4px 4px color-mix(in srgb, var(--color-base) 40%, transparent),
+        inset 0px 4px color-mix(in srgb, white 10%, transparent),
+        inset 0px -4px color-mix(in srgb, black 30%, transparent);
     }
 
     &.btn-pixel--secondary {
@@ -115,15 +107,64 @@
     }
 
     &:active {
-      transform: translateY(5px);
+      transform: translateY(4px);
       box-shadow:
-        0px 5px var(--color-base),
-        0px -5px var(--color-base),
-        5px 0px var(--color-base),
-        -5px 0px var(--color-base),
-        inset 0px 5px color-mix(in srgb, var(--color-base) 40%, transparent),
-        inset 0px 10px color-mix(in srgb, var(--color-base) 40%, transparent),
-        inset 0px -5px color-mix(in srgb, var(--color-base) 40%, transparent);
+        0px 4px var(--color-base),
+        0px -4px var(--color-base),
+        4px 0px var(--color-base),
+        -4px 0px var(--color-base),
+        inset 0px 4px color-mix(in srgb, var(--color-base) 40%, transparent),
+        inset 0px 8px color-mix(in srgb, var(--color-base) 40%, transparent),
+        inset 0px -4px color-mix(in srgb, var(--color-base) 40%, transparent);
+    }
+  }
+
+  .pixel-card {
+    @apply relative border-0 rounded-none bg-surface-container;
+    box-shadow:
+      0px 4px var(--color-outline-variant),
+      0px -4px var(--color-outline-variant),
+      4px 0px var(--color-outline-variant),
+      -4px 0px var(--color-outline-variant);
+    
+    &::after {
+      content: '';
+      @apply absolute inset-0 pointer-events-none;
+      box-shadow: inset 0px 4px color-mix(in srgb, white 5%, transparent);
+    }
+  }
+
+  .pixel-tag {
+    @apply px-2 py-1 text-xs font-bold rounded-none border-0;
+    box-shadow:
+      0px 2px var(--color-outline-variant),
+      0px -2px var(--color-outline-variant),
+      2px 0px var(--color-outline-variant),
+      -2px 0px var(--color-outline-variant);
+  }
+
+  .pixel-input {
+    @apply w-full bg-white/5 border-0 rounded-none px-4 py-3 text-white placeholder:text-white/30 focus:outline-none transition-all disabled:opacity-50;
+    box-shadow:
+      0px 4px var(--color-outline-variant),
+      0px -4px var(--color-outline-variant),
+      4px 0px var(--color-outline-variant),
+      -4px 0px var(--color-outline-variant);
+
+    &:focus {
+      box-shadow:
+        0px 4px var(--color-primary),
+        0px -4px var(--color-primary),
+        4px 0px var(--color-primary),
+        -4px 0px var(--color-primary);
+    }
+
+    &.error {
+      box-shadow:
+        0px 4px #f87171,
+        0px -4px #f87171,
+        4px 0px #f87171,
+        -4px 0px #f87171;
     }
   }
 
