@@ -24,7 +24,8 @@ const Portrait = ({ className, ...restProps }: PortraitProps) => {
         loading="eager"
         width={900}
         height={1200}
-        className="mx-auto "
+        className="mx-auto"
+        unoptimized
         style={{
           imageRendering: "pixelated",
         }}

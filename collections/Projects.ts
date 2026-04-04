@@ -1,12 +1,34 @@
-import { CollectionConfig } from 'payload'
+import { CollectionConfig, FieldHook } from 'payload'
+
+const format = (val: string): string =>
+  val
+    .replace(/ /g, '-')
+    .replace(/[^\w-]+/g, '')
+    .toLowerCase()
+
+const formatSlug: FieldHook = ({ operation, value, originalDoc, data }) => {
+  if (typeof value === 'string') {
+    return format(value)
+  }
+
+  if (operation === 'create' || operation === 'update') {
+    const title = data?.title || originalDoc?.title
+
+    if (title && typeof title === 'string') {
+      return format(title)
+    }
+  }
+
+  return value
+}
 
 export const Projects: CollectionConfig = {
   slug: 'projects',
   admin: {
-    useAsTitle: 'title', // แสดงชื่อโปรเจคในหน้ารายการ
+    useAsTitle: 'title',
   },
   access: {
-    read: () => true, // อนุญาตให้ทุกคนอ่านข้อมูลได้
+    read: () => true,
   },
   fields: [
     {
@@ -22,7 +44,10 @@ export const Projects: CollectionConfig = {
       unique: true,
       admin: {
         position: 'sidebar',
-        description: 'URL slug (เช่น my-awesome-project)',
+        description: 'URL slug (auto-generated from title)',
+      },
+      hooks: {
+        beforeValidate: [formatSlug],
       },
     },
     {
@@ -37,19 +62,13 @@ export const Projects: CollectionConfig = {
     },
     {
       name: 'techStack',
-      type: 'array',
-      label: 'Technology Stack (Badges)',
+      type: 'relationship',
+      relationTo: 'skills',
+      hasMany: true,
+      label: 'Technology Stack (Relations)',
       admin: {
-        description: 'เพิ่มรายชื่อเครื่องมือและเทคโนโลยีที่ใช้ (เช่น React, Next.js, Tailwind CSS)',
+        description: 'เลือกเทคโนโลยีที่ใช้ (ดึงจากคอลเลกชัน Skills)',
       },
-      fields: [
-        {
-          name: 'techName',
-          type: 'text',
-          required: true,
-          label: 'Technology Name',
-        },
-      ],
     },
     {
       name: 'shortDescription',
@@ -67,7 +86,6 @@ export const Projects: CollectionConfig = {
         description: 'รายละเอียดเนื้อหาของโปรเจค สามารถแทรกรูปภาพ อธิบายระบบ หรือความท้าทายได้',
       },
     },
-    // ---- ส่วนที่แนะนำเพิ่มเติม ----
     {
       name: 'links',
       type: 'group',
@@ -80,22 +98,7 @@ export const Projects: CollectionConfig = {
           type: 'text',
           label: 'Live Website URL',
         },
-        {
-          name: 'githubUrl',
-          type: 'text',
-          label: 'GitHub URL',
-        },
       ],
-    },
-    {
-      name: 'isFeatured',
-      type: 'checkbox',
-      label: 'Featured Project',
-      defaultValue: false,
-      admin: {
-        position: 'sidebar',
-        description: 'เลือกเพื่อให้แสดงเป็นโปรเจคแนะนำในหน้าแรก',
-      },
     },
     {
       name: 'completionDate',

@@ -7,13 +7,19 @@
     "build": "next build",
     "start": "next start",
     "lint": "eslint",
-    "generate:types": "payload generate:types"
+    "gen:types": "payload generate:types",
+    "gen:importmap": "payload generate:importmap",
+    "gen": "payload generate:types && payload generate:importmap"
   },
+  "type": "module",
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
+    "@payloadcms/db-postgres": "3.80.0",
     "@payloadcms/db-sqlite": "3.80.0",
     "@payloadcms/next": "3.80.0",
     "@payloadcms/richtext-lexical": "3.80.0",
+    "@payloadcms/storage-s3": "3.80.0",
+    "@radix-ui/react-dialog": "^1.1.15",
     "@react-email/components": "^1.0.10",
     "clsx": "^2.1.1",
     "graphql": "^16.13.2",

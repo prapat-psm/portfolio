@@ -20,8 +20,7 @@
   /* Typography */
   --font-pixelify-sans:
     var(--font-pixelify-sans), ui-sans-serif, system-ui, sans-serif;
-  --font-press-start-2p:
-    var(--font-press-start-2p), cursive;
+  --font-press-start-2p: var(--font-press-start-2p), cursive;
 
   /* Liquid Typography - Scaling from 375px to 3840px */
   --text-xs: clamp(0.75rem, 0.72rem + 0.13vw, 1rem);
@@ -70,7 +69,7 @@
       inset 0px 4px color-mix(in srgb, white 10%, transparent),
       inset 0px -4px color-mix(in srgb, black 30%, transparent);
 
-    @apply bg-(--color-base) text-on-background px-6 h-10 cursor-pointer flex items-center font-bold justify-center transition-transform rounded-none;
+    @apply bg-(--color-base) text-on-background px-5 h-10 cursor-pointer flex items-center font-semibold justify-center transition-transform;
 
     &:hover {
       transform: translateY(-2px);
@@ -87,7 +86,7 @@
     }
 
     &.btn-pixel--secondary {
-      --color-base: var(--color-secondary);
+      --color-base: var(--color-blue-400);
     }
 
     &.btn-pixel--tertiary {
@@ -103,7 +102,7 @@
     }
 
     &.btn-pixel--small {
-      @apply px-3 h-8;
+      @apply px-5 h-8;
     }
 
     &:active {
@@ -126,9 +125,9 @@
       0px -4px var(--color-outline-variant),
       4px 0px var(--color-outline-variant),
       -4px 0px var(--color-outline-variant);
-    
+
     &::after {
-      content: '';
+      content: "";
       @apply absolute inset-0 pointer-events-none;
       box-shadow: inset 0px 4px color-mix(in srgb, white 5%, transparent);
     }
@@ -169,7 +168,7 @@
   }
 
   .c-section {
-    @apply py-20 lg:py-30 bg-surface-container-low relative;
+    @apply py-12 lg:py-30 relative;
   }
 
   .c-container {

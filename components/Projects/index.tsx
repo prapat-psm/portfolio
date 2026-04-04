@@ -1,85 +1,31 @@
-import config from "@payload-config";
 import { getPayload } from "payload";
-import Link from "next/link";
-import Image from "next/image";
+import config from "@payload-config";
 import { SectionHeader } from "../SectionHeader";
+import { ProjectList } from "./ProjectList";
 
-const Projects = async ({}: React.ComponentProps<"section">) => {
+const Projects = async ({ ...restProps }: React.ComponentProps<"section">) => {
   const payload = await getPayload({ config });
 
   const { docs: projects } = await payload.find({
     collection: "projects",
-    sort: "-completionDate", // Sort by newest first
-    limit: 4, // Show 4 projects maximum
+    sort: "-completionDate",
   });
+
+  if (projects.length === 0) return null;
 
   return (
     <section
       id="projects"
       className="c-section bg-surface-container text-on-surface"
-    >
+      {...restProps}>
       <div className="c-container space-y-10">
         <SectionHeader
           title="Projects"
           description="A showcase of recent digital experiences and technical solutions crafted to solve complex problems with elegant architecture."
           variants="secondary"
         />
-        <div className="py-8 grid grid-cols-1 md:grid-cols-2 gap-5">
-          {projects.map((project) => {
-            const imageUrl =
-              project.featuredImage && typeof project.featuredImage === "object"
-                ? project.featuredImage.url
-                : null;
-            const imageAlt =
-              project.featuredImage && typeof project.featuredImage === "object"
-                ? project.featuredImage.alt || project.title
-                : project.title;
 
-            return (
-              <Link
-                href={`/projects/${project.slug}`}
-                key={project.id}
-                className="group flex flex-col gap-2"
-              >
-                <div className="aspect-video bg-primary-dim pixel-card overflow-hidden relative group-hover:shadow-[0_8px_0_var(--color-primary-dim)] transition-shadow">
-                  {imageUrl && (
-                    <Image
-                      src={imageUrl}
-                      alt={imageAlt}
-                      fill
-                      sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                      className="object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                  )}
-                  {/* Overlay gradient on hover */}
-                  <div className="absolute inset-x-0 bottom-0 h-1/2 bg-linear-to-t from-background/80 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-300 pointer-events-none z-10" />
-                </div>
-
-                <div className="flex flex-col gap-2 relative z-20">
-                  <h3 className="text-2xl group-hover:text-primary transition-colors font-bold mt-2">
-                    {project.title}
-                  </h3>
-
-                  {project.techStack && project.techStack.length > 0 && (
-                    <div className="flex flex-wrap gap-1">
-                      {" "}
-                      {project.techStack.map(
-                        (t: { techName: string }, i: number) => (
-                          <span
-                            key={i}
-                            className="pixel-tag bg-surface-variant text-on-surface-variant"
-                          >
-                            {t.techName}
-                          </span>
-                        ),
-                      )}
-                    </div>
-                  )}
-                </div>
-              </Link>
-            );
-          })}
-        </div>
+        <ProjectList initialProjects={projects} />
       </div>
     </section>
   );

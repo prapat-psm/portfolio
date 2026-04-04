@@ -49,7 +49,7 @@ const Form = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.25 }}
-        className="relative overflow-hidden p-8"
+        className="relative overflow-hidden p-4 lg:p-8"
       >
         <div className="relative z-10">
           <form
@@ -182,33 +182,33 @@ const Form = () => {
               >
                 <AnimatePresence mode="wait">
                   {!isPending && !state.success && (
-                    <motion.div
+                    <motion.span
                       key="idle"
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className=" flex gap-x-2 items-center"
+                      className="flex gap-x-2 items-center"
                     >
                       <span>Send Message</span>
                       <Send className="size-5" />
-                    </motion.div>
+                    </motion.span>
                   )}
 
                   {isPending && (
-                    <motion.div
+                    <motion.span
                       key="loading"
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="flex items-center"
+                      className="flex gap-x-2 items-center"
                     >
                       <span>Sending...</span>
                       <Loader className="animate-spin" />
-                    </motion.div>
+                    </motion.span>
                   )}
 
                   {state.success && !isPending && (
-                    <motion.div
+                    <motion.span
                       key="success"
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
@@ -216,7 +216,7 @@ const Form = () => {
                     >
                       <span>Sent Successfully</span>
                       <Checked className="size-5" />
-                    </motion.div>
+                    </motion.span>
                   )}
                 </AnimatePresence>
               </button>
