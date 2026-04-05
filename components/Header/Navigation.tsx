@@ -5,7 +5,8 @@ import { Fragment } from "react";
 
 const navItems = [
   { id: "intro", label: "Intro" },
-  { id: "stacks", label: "Tech Stacks" },
+  { id: "stacks", label: "Stacks" },
+  { id: "experiences", label: "Experiences" },
   { id: "projects", label: "Projects" },
   { id: "contact", label: "Contact" },
 ];
@@ -41,8 +42,7 @@ const NavItem = ({ id, label }: { id: string; label: string }) => {
           e.preventDefault();
           const target = document.getElementById(id);
           target?.scrollIntoView({ behavior: "smooth" });
-        }}
-      >
+        }}>
         {label}
       </Link>
     </li>

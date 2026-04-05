@@ -4,6 +4,7 @@ import { motion, type Variants } from "motion/react";
 import { Button } from "@/components/Button";
 import { usePreload } from "@/components/Providers";
 import { Download } from "../Icons/Download";
+import Link from "next/link";
 
 const containerVariants: Variants = {
   hidden: { opacity: 0 },
@@ -40,7 +41,7 @@ const Information = () => {
           className="flex flex-wrap items-center gap-2">
           <p className="flex items-center gap-2 pixel-tag bg-surface-variant">
             <span className="size-2 animate-pulse bg-green-500" />
-            <span className="text-sm text-primary font-bold">
+            <span className="text-sm pt-0.5 text-primary font-bold">
               Senior frontend developer
             </span>
           </p>
@@ -48,9 +49,9 @@ const Information = () => {
 
         <motion.h1
           variants={itemVariants}
-          className="text-3xl md:text-4xl font-semibold text-on-background font-press-start-2p uppercase leading-tight">
-          I&apos;m <br className="md:hidden" />
-          <span className="text-gradient">Prapat</span>
+          className="text-3xl md:text-4xl font-semibold text-on-background font-press-start-2p flex gap-x-4 uppercase pt-2">
+          <span>I&apos;m</span>
+          <span className="text-gradient tracking-widest">Prapat</span>
         </motion.h1>
 
         <motion.p
@@ -73,10 +74,14 @@ const Information = () => {
           Contact
         </Button>
 
-        <button className="flex px-1 items-center gap-1 text-on-surface-variant underline cursor-pointer hover:no-underline">
+        <Link
+          href="https://wbcylprqunqsmppnlprf.supabase.co/storage/v1/object/sign/resume/Resume%20Prapat%20Prapatsornmanu.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mZTc2YmY2Yy1iZTlmLTQxNzItODM5OS0yZWM2ZmZlMWFjNzEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJyZXN1bWUvUmVzdW1lIFByYXBhdCBQcmFwYXRzb3JubWFudS5wZGYiLCJpYXQiOjE3NzU0MTA2MDIsImV4cCI6MTgwNjk0NjYwMn0.Skr8aw7mKdwaNMIB3rx4rKxX2KgnPaoSSYsipzAK_sI"
+          download
+          target="_blank"
+          className="flex px-1 items-center gap-1 text-on-surface-variant underline cursor-pointer hover:no-underline">
           <Download className="size-5" />
           <span>Resume (Updated 2026)</span>
-        </button>
+        </Link>
       </motion.div>
     </motion.div>
   );

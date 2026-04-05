@@ -71,6 +71,7 @@ export interface Config {
     projects: Project;
     skills: Skill;
     stacks: Stack;
+    'work-experiences': WorkExperience;
     'payload-kv': PayloadKv;
     users: User;
     'payload-locked-documents': PayloadLockedDocument;
@@ -83,6 +84,7 @@ export interface Config {
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
     skills: SkillsSelect<false> | SkillsSelect<true>;
     stacks: StacksSelect<false> | StacksSelect<true>;
+    'work-experiences': WorkExperiencesSelect<false> | WorkExperiencesSelect<true>;
     'payload-kv': PayloadKvSelect<false> | PayloadKvSelect<true>;
     users: UsersSelect<false> | UsersSelect<true>;
     'payload-locked-documents': PayloadLockedDocumentsSelect<false> | PayloadLockedDocumentsSelect<true>;
@@ -209,6 +211,7 @@ export interface Skill {
  */
 export interface Stack {
   id: number;
+  _order?: string | null;
   /**
    * ชื่อกลุ่มของสกิล (เช่น Core Tech, Full-stack Engineering)
    */
@@ -245,6 +248,43 @@ export interface Stack {
    * จัดลำดับการแสดงผลบนหน้าเว็บไซต์ (ค่าน้อยจะแสดงก่อน)
    */
   order?: number | null;
+  updatedAt: string;
+  createdAt: string;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "work-experiences".
+ */
+export interface WorkExperience {
+  id: number;
+  companyName: string;
+  role: string;
+  location?: string | null;
+  yearStart: string;
+  yearEnd?: string | null;
+  isCurrent?: boolean | null;
+  /**
+   * Describe your role and key achievements (Top-tier resume style)
+   */
+  description: {
+    root: {
+      type: string;
+      children: {
+        type: any;
+        version: number;
+        [k: string]: unknown;
+      }[];
+      direction: ('ltr' | 'rtl') | null;
+      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
+      indent: number;
+      version: number;
+    };
+    [k: string]: unknown;
+  };
+  /**
+   * Select skills related to this work experience
+   */
+  skills?: (number | Skill)[] | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -312,6 +352,10 @@ export interface PayloadLockedDocument {
     | ({
         relationTo: 'stacks';
         value: number | Stack;
+      } | null)
+    | ({
+        relationTo: 'work-experiences';
+        value: number | WorkExperience;
       } | null)
     | ({
         relationTo: 'users';
@@ -411,11 +455,28 @@ export interface SkillsSelect<T extends boolean = true> {
  * via the `definition` "stacks_select".
  */
 export interface StacksSelect<T extends boolean = true> {
+  _order?: T;
   title?: T;
   icon?: T;
   color?: T;
   skills?: T;
   order?: T;
+  updatedAt?: T;
+  createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "work-experiences_select".
+ */
+export interface WorkExperiencesSelect<T extends boolean = true> {
+  companyName?: T;
+  role?: T;
+  location?: T;
+  yearStart?: T;
+  yearEnd?: T;
+  isCurrent?: T;
+  description?: T;
+  skills?: T;
   updatedAt?: T;
   createdAt?: T;
 }

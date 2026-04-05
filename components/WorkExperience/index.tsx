@@ -14,20 +14,16 @@ const WorkExperience = async ({}: React.ComponentProps<"section">) => {
   if (!experiences || experiences.length === 0) return null;
 
   return (
-    <section id="experience" className="c-section">
+    <section id="experiences" className="c-section">
       <div className="c-container space-y-12">
         <SectionHeader
-          title="Work History"
+          title="Work Experiences"
           description="A timeline of my professional journey, building scalable systems and crafting digital experiences across various industries."
         />
 
-        <div className="relative border-l-2 border-outline-variant/30 ml-4 md:ml-6 pl-8 md:pl-12 space-y-12">
-          {(experiences as unknown as { id: string }[]).map((exp, index) => (
-            <WorkExperienceItem
-              key={exp.id}
-              experience={exp as never}
-              index={index}
-            />
+        <div className="relative border-l-2 border-outline-variant/30 ml-5 pl-10 space-y-12">
+          {experiences.map((exp) => (
+            <WorkExperienceItem key={exp.id} experience={exp} />
           ))}
         </div>
       </div>

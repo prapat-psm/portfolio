@@ -23,10 +23,12 @@ export const Stacks: CollectionConfig = {
   slug: "stacks",
   admin: {
     useAsTitle: "title",
+    defaultColumns: ["title", "order", "icon", "color", "skills"],
   },
   access: {
     read: () => true,
   },
+  orderable: true,
   fields: [
     {
       name: "title",

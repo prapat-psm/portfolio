@@ -3,6 +3,7 @@ import type { Metadata } from "next";
 import { Pixelify_Sans, Press_Start_2P } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
+import { FloatingButton } from "@/components/FloatingButton";
 import { Preload } from "@/components/Preload";
 
 import { PreloadProvider } from "@/components/Providers";
@@ -40,6 +41,7 @@ export default function RootLayout({
           <Header />
           <main className="flex-1">{children}</main>
           <Footer />
+          <FloatingButton />
         </PreloadProvider>
       </body>
     </html>

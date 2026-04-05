@@ -9,6 +9,7 @@ import { Projects } from "@/collections/Projects";
 import { Skills } from "@/collections/Skills";
 import { Stacks } from "@/collections/Stacks";
 import { Media } from "@/collections/Media";
+import { WorkExperiences } from "./collections/WorkExperiences";
 
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
@@ -67,5 +68,6 @@ export default buildConfig({
   // generate type
   typescript: {
     outputFile: path.resolve(dirname, "payload-types.ts"),
+    autoGenerate: true,
   },
 });
