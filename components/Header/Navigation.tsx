@@ -13,7 +13,7 @@ const navItems = [
 
 const Navigation = () => {
   return (
-    <nav className="max-lg:hidden flex items-center gap-8">
+    <nav className="flex items-center gap-8">
       <ul className="flex items-center gap-x-2">
         {navItems.map((item, i) => {
           return (
@@ -37,7 +37,7 @@ const NavItem = ({ id, label }: { id: string; label: string }) => {
     <li key={`${id}`}>
       <Link
         href={`/#${id}`}
-        className="font-semibold text-md hover:text-primary-dim"
+        className="font-semibold text-sm hover:text-primary-dim"
         onClick={(e: React.MouseEvent<HTMLAnchorElement>) => {
           e.preventDefault();
           const target = document.getElementById(id);

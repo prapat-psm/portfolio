@@ -8,7 +8,7 @@ const Header = () => {
         <div className="absolute top-[calc(50%-0.25rem)] left-[calc(50%-0.25rem)] -translate-x-1/2 -translate-y-1/2">
           <Brand />
         </div>
-        <div className="flex items-center justify-between w-full">
+        <div className="max-xl:hidden flex items-center justify-between w-full">
           <div className="shrink-0"></div>
           <div className="shrink-0">
             <Navigation />

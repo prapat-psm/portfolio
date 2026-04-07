@@ -69,8 +69,7 @@ export default function ProjectDetailContent({
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       transition={{ duration: 0.5 }}
-      className="flex flex-col"
-    >
+      className="flex flex-col">
       <div className="relative aspect-video w-full overflow-hidden ">
         {imageUrl && (
           <Image
@@ -82,24 +81,23 @@ export default function ProjectDetailContent({
             priority
           />
         )}
-        {/* <div className="absolute inset-0 bg-linear-to-t from-background via-background/20 to-transparent" /> */}
+        <div className="absolute inset-0 bg-linear-to-t from-background via-background/20 to-transparent" />
       </div>
 
       <div className="px-6 py-10 lg:p-10 flex flex-col gap-10">
         <header className="flex flex-col gap-6">
-          <div className="flex flex-wrap items-center justify-between gap-8">
-            <h1 className="text-5xl font-black uppercase tracking-tighter">
+          <div className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6 lg:gap-10">
+            <h1 className="flex-1 text-5xl font-black uppercase tracking-tighter">
               {project.title}
             </h1>
 
             {project.links?.websiteUrl && (
-              <div className="flex gap-4">
+              <div className="shrink-0 flex items-center justify-center gap-4">
                 <Button
                   href={project.links.websiteUrl}
                   target="_blank"
                   variants="secondary"
-                  rel="noopener noreferrer"
-                >
+                  rel="noopener noreferrer">
                   <ExternalLink className="size-5" />
                   <span>Live Preview</span>
                 </Button>
@@ -113,10 +111,7 @@ export default function ProjectDetailContent({
                 if (typeof t !== "object") return null;
 
                 return (
-                  <span
-                    key={t.id}
-                    className="px-3 py-1.5 rounded-xl bg-primary/10 text-primary border border-primary/20 text-[10px] font-black uppercase tracking-widest"
-                  >
+                  <span key={t.id} className="px-3 py-1.5 pixel-tag">
                     {t.name}
                   </span>
                 );
@@ -125,9 +120,12 @@ export default function ProjectDetailContent({
           )}
         </header>
 
-        <section className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-8 lg:gap-15">
+        <section className="grid grid-cols-1 lg:grid-cols-[2fr_1fr] gap-6 lg:gap-10">
           <div className="flex flex-col gap-10">
             <article className="flex flex-col gap-6">
+              <h4 className="uppercase tracking-widest font-semibold text-primary-dim">
+                Description
+              </h4>
               {project.shortDescription && (
                 <p className="text-md text-balance">
                   {project.shortDescription}
@@ -135,18 +133,12 @@ export default function ProjectDetailContent({
               )}
 
               {project.content && <RichText data={project.content} />}
-
-              <div className="text-on-surface-variant font-medium leading-relaxed">
-                Detailed project case study and technical breakdown goes here.
-                Leveraging high-end editorial layouts and cutting-edge frontend
-                performance optimization.
-              </div>
             </article>
           </div>
 
           <aside className="flex flex-col gap-6 h-fit sticky top-0 right-0">
-            <div>
-              <h4 className="label-md uppercase font-black text-primary tracking-widest mb-4">
+            <div className="space-y-4">
+              <h4 className="uppercase tracking-widest font-semibold text-primary-dim">
                 Role / Focus
               </h4>
               <p className="body-lg text-on-surface-variant">
@@ -154,8 +146,8 @@ export default function ProjectDetailContent({
               </p>
             </div>
             {project.completionDate && (
-              <div>
-                <h4 className="label-md uppercase font-black text-primary tracking-widest mb-4">
+              <div className="space-y-4">
+                <h4 className="uppercase tracking-widest font-semibold text-primary-dim">
                   Completion Date
                 </h4>
                 <p className="body-lg text-on-surface-variant">
@@ -167,10 +159,6 @@ export default function ProjectDetailContent({
               </div>
             )}
             <div className="h-px bg-outline/10" />
-            <p className="text-[11px] font-bold uppercase tracking-widest text-on-surface-variant/40 leading-relaxed italic">
-              Crafted as part of a high-performance terminal experience for the
-              editorial portfolio.
-            </p>
           </aside>
         </section>
       </div>

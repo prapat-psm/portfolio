@@ -32,7 +32,7 @@ const Form = () => {
     formState: { errors: clientErrors },
   } = useForm<FormValues>({
     resolver: zodResolver(contactSchema),
-    mode: "onTouched",
+    mode: "onSubmit",
   });
 
   // Reset form when success
@@ -49,8 +49,7 @@ const Form = () => {
         initial={{ opacity: 0, y: 20 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.25 }}
-        className="relative overflow-hidden p-4 lg:p-8"
-      >
+        className="relative overflow-hidden p-4 lg:p-8">
         <div className="relative z-10">
           <form
             ref={formRef}
@@ -62,13 +61,11 @@ const Form = () => {
                 e.preventDefault();
               }
             }}
-            className="space-y-6"
-          >
+            className="space-y-6">
             <div className="space-y-3">
               <label
                 htmlFor="company"
-                className="flex items-center gap-x-2 text-md font-medium text-on-background"
-              >
+                className="flex items-center gap-x-2 text-md font-medium text-on-background">
                 <Building className="size-5" />
                 <span>Company</span>
               </label>
@@ -81,7 +78,8 @@ const Form = () => {
                   placeholder="Ex. Acme Corp"
                   className={cn(
                     "pixel-input",
-                    (clientErrors.company || state.fieldErrors?.company) && "error"
+                    (clientErrors.company || state.fieldErrors?.company) &&
+                      "error",
                   )}
                 />
                 <AnimatePresence>
@@ -90,8 +88,7 @@ const Form = () => {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="text-red-400 text-xs font-bold pt-1"
-                    >
+                      className="text-red-400 text-xs font-bold pt-1">
                       {clientErrors.company?.message ||
                         state.fieldErrors?.company?.[0]}
                     </motion.p>
@@ -103,8 +100,7 @@ const Form = () => {
             <div className="space-y-3">
               <label
                 htmlFor="email"
-                className="flex items-center gap-x-2 text-md font-bold text-on-background"
-              >
+                className="flex items-center gap-x-2 text-md font-bold text-on-background">
                 <Mail className="size-5" />
                 <span>Email</span>
               </label>
@@ -117,7 +113,7 @@ const Form = () => {
                   placeholder="Ex. contact@acme.com"
                   className={cn(
                     "pixel-input",
-                    (clientErrors.email || state.fieldErrors?.email) && "error"
+                    (clientErrors.email || state.fieldErrors?.email) && "error",
                   )}
                 />
                 <AnimatePresence>
@@ -126,8 +122,7 @@ const Form = () => {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="text-red-400 text-xs font-bold pt-1"
-                    >
+                      className="text-red-400 text-xs font-bold pt-1">
                       {clientErrors.email?.message ||
                         state.fieldErrors?.email?.[0]}
                     </motion.p>
@@ -139,8 +134,7 @@ const Form = () => {
             <div className="space-y-3">
               <label
                 htmlFor="tel"
-                className="flex items-center gap-x-2 text-md font-bold text-on-background"
-              >
+                className="flex items-center gap-x-2 text-md font-bold text-on-background">
                 <Phone className="size-5" />
                 <span>Telephone</span>
               </label>
@@ -153,7 +147,7 @@ const Form = () => {
                   placeholder="Ex. 099-000-0000"
                   className={cn(
                     "pixel-input",
-                    (clientErrors.tel || state.fieldErrors?.tel) && "error"
+                    (clientErrors.tel || state.fieldErrors?.tel) && "error",
                   )}
                 />
                 <AnimatePresence>
@@ -162,8 +156,7 @@ const Form = () => {
                       initial={{ opacity: 0, height: 0 }}
                       animate={{ opacity: 1, height: "auto" }}
                       exit={{ opacity: 0, height: 0 }}
-                      className="text-red-400 text-xs font-bold pt-1"
-                    >
+                      className="text-red-400 text-xs font-bold pt-1">
                       {clientErrors.tel?.message || state.fieldErrors?.tel?.[0]}
                     </motion.p>
                   )}
@@ -176,10 +169,10 @@ const Form = () => {
                 type="submit"
                 disabled={isPending || state.success}
                 className={cn(
-                    "shrink-0 btn-pixel btn-pixel--primary-dim group",
-                    (isPending || state.success) && "opacity-70 cursor-not-allowed"
-                )}
-              >
+                  "shrink-0 btn-pixel btn-pixel--primary-dim group",
+                  (isPending || state.success) &&
+                    "opacity-70 cursor-not-allowed",
+                )}>
                 <AnimatePresence mode="wait">
                   {!isPending && !state.success && (
                     <motion.span
@@ -187,8 +180,7 @@ const Form = () => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="flex gap-x-2 items-center"
-                    >
+                      className="flex gap-x-2 items-center">
                       <span>Send Message</span>
                       <Send className="size-5" />
                     </motion.span>
@@ -200,8 +192,7 @@ const Form = () => {
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="flex gap-x-2 items-center"
-                    >
+                      className="flex gap-x-2 items-center">
                       <span>Sending...</span>
                       <Loader className="animate-spin" />
                     </motion.span>
@@ -212,8 +203,7 @@ const Form = () => {
                       key="success"
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="flex gap-x-2 items-center text-green-400 font-bold"
-                    >
+                      className="flex gap-x-2 items-center text-green-400 font-bold">
                       <span>Sent Successfully</span>
                       <Checked className="size-5" />
                     </motion.span>
@@ -229,8 +219,7 @@ const Form = () => {
                 initial={{ opacity: 0, height: 0 }}
                 animate={{ opacity: 1, height: "auto" }}
                 exit={{ opacity: 0, height: 0 }}
-                className="mt-6 flex gap-x-2 items-center text-red-400 text-sm bg-red-400/10 p-3 pixel-tag border-red-400/20"
-              >
+                className="mt-6 flex gap-x-2 items-center text-red-400 text-sm bg-red-400/10 p-3 pixel-tag border-red-400/20">
                 <Alert className="size-5" />
                 <span>{state.error}</span>
               </motion.div>

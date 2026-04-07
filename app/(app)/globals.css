@@ -18,22 +18,11 @@
   --color-on-surface-variant: #a3aac4;
 
   /* Typography */
+  --font-silkscreen:
+    var(--font-silkscreen), ui-sans-serif, system-ui, sans-serif;
   --font-pixelify-sans:
     var(--font-pixelify-sans), ui-sans-serif, system-ui, sans-serif;
   --font-press-start-2p: var(--font-press-start-2p), cursive;
-
-  /* Liquid Typography - Scaling from 375px to 3840px */
-  --text-xs: clamp(0.75rem, 0.72rem + 0.13vw, 1rem);
-  --text-sm: clamp(0.875rem, 0.84rem + 0.15vw, 1.25rem);
-  --text-base: clamp(1rem, 0.95rem + 0.23vw, 1.5rem);
-  --text-lg: clamp(1.125rem, 1.05rem + 0.32vw, 1.875rem);
-  --text-xl: clamp(1.25rem, 1.15rem + 0.43vw, 2.25rem);
-  --text-2xl: clamp(1.5rem, 1.35rem + 0.65vw, 3rem);
-  --text-3xl: clamp(1.875rem, 1.65rem + 0.97vw, 4.125rem);
-  --text-4xl: clamp(2.25rem, 1.95rem + 1.3vw, 5.25rem);
-  --text-5xl: clamp(3rem, 2.5rem + 2.16vw, 8rem);
-  --text-6xl: clamp(3.75rem, 3.1rem + 2.8vw, 10rem);
-  --text-7xl: clamp(4.5rem, 3.6rem + 3.9vw, 13.5rem);
 
   /* Elevation (Atmospheric shadows) */
   --shadow-primary:
@@ -45,7 +34,7 @@
 
 @layer base {
   body {
-    @apply bg-surface text-on-background font-pixelify-sans antialiased;
+    @apply bg-surface text-on-background font-silkscreen antialiased;
   }
 }
 
@@ -69,7 +58,7 @@
       inset 0px 4px color-mix(in srgb, white 10%, transparent),
       inset 0px -4px color-mix(in srgb, black 30%, transparent);
 
-    @apply bg-(--color-base) text-on-background px-5 h-10 cursor-pointer flex items-center font-semibold justify-center transition-transform;
+    @apply bg-(--color-base) font-silkscreen text-on-background text-sm px-5 h-10 cursor-pointer flex items-center gap-x-1 font-semibold justify-center transition-transform;
 
     &:hover {
       transform: translateY(-2px);
@@ -134,7 +123,7 @@
   }
 
   .pixel-tag {
-    @apply px-2 py-1 text-xs font-bold rounded-none border-0;
+    @apply px-2 pt-1 pb-1.5 text-xs font-bold rounded-none border-0;
     box-shadow:
       0px 2px var(--color-outline-variant),
       0px -2px var(--color-outline-variant),

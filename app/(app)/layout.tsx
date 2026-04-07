@@ -1,12 +1,23 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import { Pixelify_Sans, Press_Start_2P } from "next/font/google";
+import {
+  Roboto,
+  Pixelify_Sans,
+  Press_Start_2P,
+  Silkscreen,
+} from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { FloatingButton } from "@/components/FloatingButton";
 import { Preload } from "@/components/Preload";
 
 import { PreloadProvider } from "@/components/Providers";
+
+const silkscreen = Silkscreen({
+  variable: "--font-silkscreen",
+  subsets: ["latin"],
+  weight: ["400", "700"],
+});
 
 const pixelifySans = Pixelify_Sans({
   variable: "--font-pixelify-sans",
@@ -34,7 +45,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${pixelifySans.variable} ${pressStart2P.variable} h-full antialiased`}>
+      className={`${silkscreen.variable} ${pixelifySans.variable} ${pressStart2P.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-surface text-on-background">
         <PreloadProvider>
           <Preload />

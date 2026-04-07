@@ -57,11 +57,11 @@ export const WorkExperienceItem = ({ experience }: WorkExperienceProps) => {
         )}>
         <div className="flex flex-col md:flex-row md:items-baseline justify-between gap-2 mb-4">
           <div className="space-y-1">
-            <h3 className="text-xl md:text-2xl font-bold text-on-background group-hover:text-primary transition-colors">
+            <h3 className="text-xl md:text-2xl font-bold text-on-background font-press-start-2p group-hover:text-primary transition-colors">
               {experience.role}
             </h3>
-            <div className="flex items-baseline gap-2 font-semibold text-primary">
-              <span className="text-lg font-bold">
+            <div className="flex items-baseline gap-2 font-semibold">
+              <span className="text-lg font-bold font-press-start-2p">
                 {experience.companyName}
               </span>
               {experience.location && (
@@ -74,14 +74,16 @@ export const WorkExperienceItem = ({ experience }: WorkExperienceProps) => {
               )}
             </div>
           </div>
-          <div
-            className={cn(
-              "label-sm md:label-md px-3 py-1 border font-bold",
-              experience.isCurrent
-                ? "border-primary text-primary"
-                : "border-outline-variant text-on-surface-variant",
-            )}>
-            {period}
+          <div className="shrink-0">
+            <div
+              className={cn(
+                "px-3 py-1 border font-bold",
+                experience.isCurrent
+                  ? "border-primary text-primary"
+                  : "border-outline-variant text-on-surface-variant",
+              )}>
+              {period}
+            </div>
           </div>
         </div>
 

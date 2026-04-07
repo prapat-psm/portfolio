@@ -41,7 +41,7 @@ const Information = () => {
           className="flex flex-wrap items-center gap-2">
           <p className="flex items-center gap-2 pixel-tag bg-surface-variant">
             <span className="size-2 animate-pulse bg-green-500" />
-            <span className="text-sm pt-0.5 text-primary font-bold">
+            <span className="text-sm pb-0.5 text-primary font-bold">
               Senior frontend developer
             </span>
           </p>

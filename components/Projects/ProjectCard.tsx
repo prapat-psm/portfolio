@@ -31,8 +31,7 @@ export const ProjectCard = ({ project, onOpen }: ProjectCardProps) => {
       exit={{ opacity: 0, scale: 0.95 }}
       transition={{ duration: 0.6, type: "spring", bounce: 0.2 }}
       onClick={() => onOpen?.()}
-      className="group flex flex-col gap-4 text-left w-full hover:-translate-y-2 transition-transform"
-    >
+      className="group flex flex-col gap-4 text-left w-full hover:-translate-y-2 transition-transform">
       <div className="aspect-video bg-surface-variant/20 border border-transparent rounded-md overflow-hidden relative group-hover:border-primary-dim group-hover:ring-1 group-hover:ring-primary-dim">
         {imageUrl && (
           <Image
@@ -51,7 +50,7 @@ export const ProjectCard = ({ project, onOpen }: ProjectCardProps) => {
       </div>
 
       <div className="flex flex-col gap-3 relative z-20 pr-5">
-        <h3 className="text-2xl group-hover:text-primary transition-colors font-bold overflow-hidden text-ellipsis whitespace-nowrap">
+        <h3 className="text-2xl group-hover:text-primary transition-colors font-semibold overflow-hidden">
           {project.title}
         </h3>
 
@@ -65,10 +64,7 @@ export const ProjectCard = ({ project, onOpen }: ProjectCardProps) => {
               if (typeof t !== "object") return null;
 
               return (
-                <span
-                  key={t.id}
-                  className="px-3 py-1.5 rounded-xl bg-primary/10 text-primary border border-primary/20 text-[10px] font-black uppercase tracking-widest"
-                >
+                <span key={t.id} className="pixel-tag px-3 pt-1 pb-1.5">
                   {t.name}
                 </span>
               );
