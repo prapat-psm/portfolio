@@ -1,17 +1,11 @@
 import "./globals.css";
 import type { Metadata } from "next";
-import {
-  Roboto,
-  Pixelify_Sans,
-  Press_Start_2P,
-  Silkscreen,
-} from "next/font/google";
+import { Pixelify_Sans, Press_Start_2P, Silkscreen } from "next/font/google";
 import { Footer } from "@/components/Footer";
 import { Header } from "@/components/Header";
 import { FloatingButton } from "@/components/FloatingButton";
+import { PreloadProvider } from "@/components/Preload/PreloadProvider";
 import { Preload } from "@/components/Preload";
-
-import { PreloadProvider } from "@/components/Providers";
 
 const silkscreen = Silkscreen({
   variable: "--font-silkscreen",

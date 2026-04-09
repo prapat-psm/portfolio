@@ -96,11 +96,7 @@ export const WorkExperienceItem = ({ experience }: WorkExperienceProps) => {
             {experience.skills.map((skill) => (
               <span
                 key={typeof skill === "object" ? skill.id : skill}
-                className={cn(
-                  "pixel-tag tracking-wide",
-                  "bg-surface-variant text-on-surface-variant",
-                  "hover:text-primary transition-colors cursor-default",
-                )}>
+                className={cn("pixel-tag")}>
                 {typeof skill === "object" ? skill.name : skill}
               </span>
             ))}

@@ -8,6 +8,7 @@ import { Close } from "../Icons";
 
 const ProjectDetailContent = dynamic(() => import("./ProjectDetailContent"), {
   ssr: false,
+  loading: () => <ProjectDetailSkeleton />,
 });
 
 interface ProjectDialogProps {
@@ -34,8 +35,7 @@ export const ProjectDialog = ({ slug, onOpenChange }: ProjectDialogProps) => {
                   animate={{ scale: 1, opacity: 1 }}
                   exit={{ scale: 0.95, opacity: 0 }}
                   transition={{ type: "spring", damping: 25, stiffness: 300 }}
-                  className="bg-surface-container-low relative mx-auto max-w-4xl w-full max-h-[90svh] overflow-hidden flex flex-col"
-                >
+                  className="bg-surface-container-low relative mx-auto max-w-4xl w-full max-h-[90svh] overflow-hidden flex flex-col">
                   <Dialog.Close className="absolute top-5 right-5 z-50 bg-surface-bright/50 hover:bg-surface-bright transition-colors size-10 rounded-full flex items-center justify-center text-on-background focus:outline-hidden">
                     <Close className="size-5" />
                   </Dialog.Close>

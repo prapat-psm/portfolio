@@ -2,7 +2,7 @@
 
 import { motion, type Variants } from "motion/react";
 import { Button } from "@/components/Button";
-import { usePreload } from "@/components/Providers";
+import { usePreload } from "@/components/Preload/PreloadProvider";
 import { Download } from "../Icons/Download";
 import Link from "next/link";
 

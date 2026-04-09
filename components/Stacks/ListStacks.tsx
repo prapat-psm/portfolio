@@ -57,9 +57,7 @@ const ListStacks = ({ stacks }: { stacks: Stack[] }) => {
                 {stack.skills.map((tag) => {
                   if (typeof tag === "object") {
                     return (
-                      <span
-                        key={tag.id}
-                        className="pixel-tag bg-surface-variant text-on-surface-variant">
+                      <span key={tag.id} className="pixel-tag">
                         {tag.name}
                       </span>
                     );

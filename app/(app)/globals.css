@@ -123,7 +123,7 @@
   }
 
   .pixel-tag {
-    @apply px-2 pt-1 pb-1.5 text-xs font-bold rounded-none border-0;
+    @apply px-2 pt-1 pb-1.5 text-xs font-normal hover:text-primary;
     box-shadow:
       0px 2px var(--color-outline-variant),
       0px -2px var(--color-outline-variant),

@@ -3,7 +3,7 @@
 import { cn } from "@/libs/cn";
 import Image from "next/image";
 import { motion, HTMLMotionProps } from "motion/react";
-import { usePreload } from "@/components/Providers";
+import { usePreload } from "@/components/Preload/PreloadProvider";
 
 type PortraitProps = HTMLMotionProps<"div">;
 
@@ -16,8 +16,7 @@ const Portrait = ({ className, ...restProps }: PortraitProps) => {
       animate={isPreloadFinished ? { opacity: 1, x: 0 } : { opacity: 0, x: 20 }}
       transition={{ duration: 0.8, delay: 0.8, ease: "easeOut" }}
       className={cn("relative", className)}
-      {...restProps}
-    >
+      {...restProps}>
       <Image
         src="/portrait.gif"
         alt="Prapat Prapatsornmanu"

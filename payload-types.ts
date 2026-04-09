@@ -150,6 +150,7 @@ export interface Media {
  */
 export interface Project {
   id: number;
+  _order?: string | null;
   title: string;
   /**
    * URL slug (auto-generated from title)
@@ -164,27 +165,9 @@ export interface Project {
    */
   techStack?: (number | Skill)[] | null;
   /**
-   * คำอธิบายสั้นๆ สำหรับแสดงบนหน้า Card ของโปรเจค
+   * คำอธิบายสำหรับแสดงบนหน้า Card ของโปรเจค
    */
   shortDescription?: string | null;
-  /**
-   * รายละเอียดเนื้อหาของโปรเจค สามารถแทรกรูปภาพ อธิบายระบบ หรือความท้าทายได้
-   */
-  content?: {
-    root: {
-      type: string;
-      children: {
-        type: any;
-        version: number;
-        [k: string]: unknown;
-      }[];
-      direction: ('ltr' | 'rtl') | null;
-      format: 'left' | 'start' | 'center' | 'right' | 'end' | 'justify' | '';
-      indent: number;
-      version: number;
-    };
-    [k: string]: unknown;
-  } | null;
   links?: {
     websiteUrl?: string | null;
   };
@@ -426,12 +409,12 @@ export interface MediaSelect<T extends boolean = true> {
  * via the `definition` "projects_select".
  */
 export interface ProjectsSelect<T extends boolean = true> {
+  _order?: T;
   title?: T;
   slug?: T;
   featuredImage?: T;
   techStack?: T;
   shortDescription?: T;
-  content?: T;
   links?:
     | T
     | {

@@ -6,8 +6,8 @@ import { motion } from "motion/react";
 import { getProjectBySlug } from "@/app/actions/project";
 import { Project } from "@/payload-types";
 import { ExternalLink } from "@/components/Icons";
-import { RichText } from "@/components/RichText";
-import { Button } from "../Button";
+// import { RichText } from "@/components/RichText";
+import { Button } from "@/components/Button";
 
 type ProjectDetailContentProps = {
   slug: string;
@@ -132,7 +132,7 @@ export default function ProjectDetailContent({
                 </p>
               )}
 
-              {project.content && <RichText data={project.content} />}
+              {/* {project.content && <RichText data={project.content} />} */}
             </article>
           </div>
 

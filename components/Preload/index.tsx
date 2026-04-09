@@ -2,7 +2,7 @@
 
 import { motion, useAnimation, type Transition } from "motion/react";
 import { useEffect, useRef, useState } from "react";
-import { usePreload } from "@/components/Providers";
+import { usePreload } from "@/components/Preload/PreloadProvider";
 
 const Preload = () => {
   const [isDone, setIsDone] = useState(false);
@@ -127,8 +127,7 @@ const Preload = () => {
   return (
     <motion.div
       animate={containerControls}
-      className="fixed inset-0 z-100 flex items-center justify-center bg-surface pointer-events-none"
-    >
+      className="fixed inset-0 z-100 flex items-center justify-center bg-surface pointer-events-none">
       <div ref={wrapperRef} className="flex items-center justify-center">
         <motion.div ref={innerRef} animate={wrapperControls} className="flex">
           {/* Logo โครงสร้างเดียวกับ Brand */}
@@ -136,8 +135,7 @@ const Preload = () => {
             viewBox="0 0 100 100"
             className="size-16 text-on-background"
             fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
+            xmlns="http://www.w3.org/2000/svg">
             {/* Group 1 หลัก */}
             <motion.g animate={g1Controls} fill="currentColor">
               <rect x="20" y="20" width="10" height="60" />
@@ -150,8 +148,7 @@ const Preload = () => {
             <motion.g
               animate={g2Controls}
               fill="currentColor"
-              className="opacity-40"
-            >
+              className="opacity-40">
               <rect x="20" y="20" width="10" height="60" />
               <rect x="30" y="20" width="30" height="10" />
               <rect x="30" y="45" width="30" height="10" />

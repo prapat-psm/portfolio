@@ -1,116 +1,109 @@
-import { CollectionConfig, FieldHook } from 'payload'
+import { CollectionConfig, FieldHook } from "payload";
 
 const format = (val: string): string =>
   val
-    .replace(/ /g, '-')
-    .replace(/[^\w-]+/g, '')
-    .toLowerCase()
+    .replace(/ /g, "-")
+    .replace(/[^\w-]+/g, "")
+    .toLowerCase();
 
 const formatSlug: FieldHook = ({ operation, value, originalDoc, data }) => {
-  if (typeof value === 'string') {
-    return format(value)
+  if (typeof value === "string") {
+    return format(value);
   }
 
-  if (operation === 'create' || operation === 'update') {
-    const title = data?.title || originalDoc?.title
+  if (operation === "create" || operation === "update") {
+    const title = data?.title || originalDoc?.title;
 
-    if (title && typeof title === 'string') {
-      return format(title)
+    if (title && typeof title === "string") {
+      return format(title);
     }
   }
 
-  return value
-}
+  return value;
+};
 
 export const Projects: CollectionConfig = {
-  slug: 'projects',
+  slug: "projects",
   admin: {
-    useAsTitle: 'title',
+    useAsTitle: "title",
   },
   access: {
     read: () => true,
   },
+  orderable: true,
   fields: [
     {
-      name: 'title',
-      type: 'text',
+      name: "title",
+      type: "text",
       required: true,
-      label: 'Project Name',
+      label: "Project Name",
     },
     {
-      name: 'slug',
-      type: 'text',
+      name: "slug",
+      type: "text",
       required: true,
       unique: true,
       admin: {
-        position: 'sidebar',
-        description: 'URL slug (auto-generated from title)',
+        position: "sidebar",
+        description: "URL slug (auto-generated from title)",
       },
       hooks: {
         beforeValidate: [formatSlug],
       },
     },
     {
-      name: 'featuredImage',
-      type: 'upload',
-      relationTo: 'media',
+      name: "featuredImage",
+      type: "upload",
+      relationTo: "media",
       required: true,
-      label: 'Cover Image',
+      label: "Cover Image",
       admin: {
-        description: 'รูปภาพหน้าปกโปรเจค',
+        description: "รูปภาพหน้าปกโปรเจค",
       },
     },
     {
-      name: 'techStack',
-      type: 'relationship',
-      relationTo: 'skills',
+      name: "techStack",
+      type: "relationship",
+      relationTo: "skills",
       hasMany: true,
-      label: 'Technology Stack (Relations)',
+      label: "Technology Stack (Relations)",
       admin: {
-        description: 'เลือกเทคโนโลยีที่ใช้ (ดึงจากคอลเลกชัน Skills)',
+        description: "เลือกเทคโนโลยีที่ใช้ (ดึงจากคอลเลกชัน Skills)",
       },
     },
     {
-      name: 'shortDescription',
-      type: 'textarea',
-      label: 'Short Description',
+      name: "shortDescription",
+      type: "textarea",
+      label: "Description",
       admin: {
-        description: 'คำอธิบายสั้นๆ สำหรับแสดงบนหน้า Card ของโปรเจค',
+        description: "คำอธิบายสำหรับแสดงบนหน้า Card ของโปรเจค",
       },
     },
     {
-      name: 'content',
-      type: 'richText',
-      label: 'Project Details / Content',
+      name: "links",
+      type: "group",
       admin: {
-        description: 'รายละเอียดเนื้อหาของโปรเจค สามารถแทรกรูปภาพ อธิบายระบบ หรือความท้าทายได้',
-      },
-    },
-    {
-      name: 'links',
-      type: 'group',
-      admin: {
-        position: 'sidebar',
+        position: "sidebar",
       },
       fields: [
         {
-          name: 'websiteUrl',
-          type: 'text',
-          label: 'Live Website URL',
+          name: "websiteUrl",
+          type: "text",
+          label: "Live Website URL",
         },
       ],
     },
     {
-      name: 'completionDate',
-      type: 'date',
-      label: 'Completion Date / Year',
+      name: "completionDate",
+      type: "date",
+      label: "Completion Date / Year",
       admin: {
-        position: 'sidebar',
+        position: "sidebar",
         date: {
-          pickerAppearance: 'monthOnly',
-          displayFormat: 'yyyy-MM',
+          pickerAppearance: "monthOnly",
+          displayFormat: "yyyy-MM",
         },
       },
     },
   ],
-}
+};

@@ -8,7 +8,7 @@ const Projects = async ({ ...restProps }: React.ComponentProps<"section">) => {
 
   const { docs: projects } = await payload.find({
     collection: "projects",
-    sort: "-completionDate",
+    sort: "_order",
   });
 
   if (projects.length === 0) return null;

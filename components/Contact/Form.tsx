@@ -8,6 +8,7 @@ import { motion, AnimatePresence } from "motion/react";
 import { submitContactForm } from "@/app/actions/contact";
 import { Alert, Building, Checked, Loader, Mail, Phone, Send } from "../Icons";
 import { cn } from "@/libs/cn";
+import { InputField } from "./InputField";
 
 const contactSchema = z.object({
   company: z.string().min(1, "Company name is required"),
@@ -35,13 +36,13 @@ const Form = () => {
     mode: "onSubmit",
   });
 
-  // Reset form when success
+  // Handle success state and reset
   useEffect(() => {
-    if (state.success && formRef.current) {
+    if (state.success) {
       reset();
-      formRef.current.reset();
+      formRef.current?.reset();
     }
-  }, [state, reset]);
+  }, [state.success, reset]);
 
   return (
     <div className="w-full max-w-2xl mx-auto">
@@ -55,157 +56,81 @@ const Form = () => {
             ref={formRef}
             action={formAction}
             onSubmit={async (e) => {
-              // Validate with react-hook-form client-side before sending Actionq
               const isValid = await trigger();
               if (!isValid) {
                 e.preventDefault();
               }
             }}
             className="space-y-6">
-            <div className="space-y-3">
-              <label
-                htmlFor="company"
-                className="flex items-center gap-x-2 text-md font-medium text-on-background">
-                <Building className="size-5" />
-                <span>Company</span>
-              </label>
-              <div className="space-y-1">
-                <input
-                  {...register("company")}
-                  id="company"
-                  type="text"
-                  disabled={isPending || state.success}
-                  placeholder="Ex. Acme Corp"
-                  className={cn(
-                    "pixel-input",
-                    (clientErrors.company || state.fieldErrors?.company) &&
-                      "error",
-                  )}
-                />
-                <AnimatePresence>
-                  {(clientErrors.company || state.fieldErrors?.company) && (
-                    <motion.p
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="text-red-400 text-xs font-bold pt-1">
-                      {clientErrors.company?.message ||
-                        state.fieldErrors?.company?.[0]}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
+            <InputField
+              id="company"
+              label="Company"
+              placeholder="Ex. Acme Corp"
+              icon={<Building className="size-5" />}
+              register={register("company")}
+              error={clientErrors.company || state.fieldErrors?.company}
+              disabled={isPending}
+            />
 
-            <div className="space-y-3">
-              <label
-                htmlFor="email"
-                className="flex items-center gap-x-2 text-md font-bold text-on-background">
-                <Mail className="size-5" />
-                <span>Email</span>
-              </label>
-              <div className="space-y-1">
-                <input
-                  {...register("email")}
-                  id="email"
-                  type="email"
-                  disabled={isPending || state.success}
-                  placeholder="Ex. contact@acme.com"
-                  className={cn(
-                    "pixel-input",
-                    (clientErrors.email || state.fieldErrors?.email) && "error",
-                  )}
-                />
-                <AnimatePresence>
-                  {(clientErrors.email || state.fieldErrors?.email) && (
-                    <motion.p
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="text-red-400 text-xs font-bold pt-1">
-                      {clientErrors.email?.message ||
-                        state.fieldErrors?.email?.[0]}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
+            <InputField
+              id="email"
+              label="Email"
+              type="email"
+              placeholder="Ex. contact@acme.com"
+              icon={<Mail className="size-5" />}
+              register={register("email")}
+              error={clientErrors.email || state.fieldErrors?.email}
+              disabled={isPending}
+            />
 
-            <div className="space-y-3">
-              <label
-                htmlFor="tel"
-                className="flex items-center gap-x-2 text-md font-bold text-on-background">
-                <Phone className="size-5" />
-                <span>Telephone</span>
-              </label>
-              <div className="space-y-1">
-                <input
-                  {...register("tel")}
-                  id="tel"
-                  type="tel"
-                  disabled={isPending || state.success}
-                  placeholder="Ex. 099-000-0000"
-                  className={cn(
-                    "pixel-input",
-                    (clientErrors.tel || state.fieldErrors?.tel) && "error",
-                  )}
-                />
-                <AnimatePresence>
-                  {(clientErrors.tel || state.fieldErrors?.tel) && (
-                    <motion.p
-                      initial={{ opacity: 0, height: 0 }}
-                      animate={{ opacity: 1, height: "auto" }}
-                      exit={{ opacity: 0, height: 0 }}
-                      className="text-red-400 text-xs font-bold pt-1">
-                      {clientErrors.tel?.message || state.fieldErrors?.tel?.[0]}
-                    </motion.p>
-                  )}
-                </AnimatePresence>
-              </div>
-            </div>
+            <InputField
+              id="tel"
+              label="Telephone"
+              type="tel"
+              placeholder="Ex. 099-000-0000"
+              icon={<Phone className="size-5" />}
+              register={register("tel")}
+              error={clientErrors.tel || state.fieldErrors?.tel}
+              disabled={isPending}
+            />
 
             <div className="flex items-center justify-center p-1.5 pt-4">
               <button
                 type="submit"
-                disabled={isPending || state.success}
+                disabled={isPending}
                 className={cn(
-                  "shrink-0 btn-pixel btn-pixel--primary-dim group",
-                  (isPending || state.success) &&
-                    "opacity-70 cursor-not-allowed",
+                  "shrink-0 btn-pixel btn-pixel--primary-dim group min-w-[200px]",
+                  isPending && "opacity-70 cursor-not-allowed",
                 )}>
                 <AnimatePresence mode="wait">
-                  {!isPending && !state.success && (
-                    <motion.span
-                      key="idle"
-                      initial={{ opacity: 0, y: 10 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      exit={{ opacity: 0, y: -10 }}
-                      className="flex gap-x-2 items-center">
-                      <span>Send Message</span>
-                      <Send className="size-5" />
-                    </motion.span>
-                  )}
-
-                  {isPending && (
+                  {isPending ? (
                     <motion.span
                       key="loading"
                       initial={{ opacity: 0, y: 10 }}
                       animate={{ opacity: 1, y: 0 }}
                       exit={{ opacity: 0, y: -10 }}
-                      className="flex gap-x-2 items-center">
+                      className="flex gap-x-2 items-center justify-center">
                       <span>Sending...</span>
                       <Loader className="animate-spin" />
                     </motion.span>
-                  )}
-
-                  {state.success && !isPending && (
+                  ) : state.success ? (
                     <motion.span
                       key="success"
                       initial={{ opacity: 0, scale: 0.8 }}
                       animate={{ opacity: 1, scale: 1 }}
-                      className="flex gap-x-2 items-center text-green-400 font-bold">
+                      className="flex gap-x-2 items-center justify-center text-green-400 font-bold">
                       <span>Sent Successfully</span>
                       <Checked className="size-5" />
+                    </motion.span>
+                  ) : (
+                    <motion.span
+                      key="idle"
+                      initial={{ opacity: 0, y: 10 }}
+                      animate={{ opacity: 1, y: 0 }}
+                      exit={{ opacity: 0, y: -10 }}
+                      className="flex gap-x-2 items-center justify-center">
+                      <span>Send Message</span>
+                      <Send className="size-5" />
                     </motion.span>
                   )}
                 </AnimatePresence>
