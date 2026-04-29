@@ -6,6 +6,7 @@ import { ProjectCard } from "./ProjectCard";
 import { ProjectDialog } from "./ProjectDialog";
 import { Plus } from "lucide-react";
 import { Project } from "@/payload-types";
+import { getProjectBySlug } from "@/app/actions/project";
 
 interface ProjectListProps {
   initialProjects: Project[];
@@ -19,13 +20,29 @@ export const ProjectList = ({
   // Use a smaller number initially for isHomePage to demonstrate load more
   const initialShowCount = isHomePage ? 6 : 9;
   const [visible, setVisible] = useState(initialShowCount);
-  const [selectedSlug, setSelectedSlug] = useState<string | null>(null);
+  const [selectedProject, setSelectedProject] = useState<Project | null>(null);
+  const [loadingSlug, setLoadingSlug] = useState<string | null>(null);
 
   const projects = initialProjects;
   const visibleProjects = projects.slice(0, visible);
 
   const handleLoadMore = () => {
     setVisible((prev) => prev + 3);
+  };
+
+  const handleOpenProject = async (slug: string) => {
+    if (!slug) return;
+    setLoadingSlug(slug);
+    try {
+      const data = await getProjectBySlug(slug);
+      if (data) {
+        setSelectedProject(data as unknown as Project);
+      }
+    } catch (error) {
+      console.error("Failed to load project details:", error);
+    } finally {
+      setLoadingSlug(null);
+    }
   };
 
   return (
@@ -39,7 +56,8 @@ export const ProjectList = ({
             <ProjectCard
               key={project.id}
               project={project}
-              onOpen={() => setSelectedSlug(project.slug)}
+              onOpen={() => handleOpenProject(project.slug!)}
+              isLoading={loadingSlug === project.slug}
             />
           ))}
         </AnimatePresence>
@@ -65,8 +83,8 @@ export const ProjectList = ({
 
       {/* Shared Dialog for all projects in this list */}
       <ProjectDialog
-        slug={selectedSlug}
-        onOpenChange={(open: boolean) => !open && setSelectedSlug(null)}
+        project={selectedProject}
+        onOpenChange={(open: boolean) => !open && setSelectedProject(null)}
       />
     </div>
   );

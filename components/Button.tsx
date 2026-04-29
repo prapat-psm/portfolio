@@ -32,13 +32,15 @@ const Button = ({
   };
 
   const handleClickToScroll = (e: React.MouseEvent<HTMLAnchorElement>) => {
-    e.preventDefault();
-    const target = document.querySelector(href as string);
+    if (typeof href === "string" && href.startsWith("#")) {
+      e.preventDefault();
+      const target = document.querySelector(href);
 
-    if (target) {
-      target.scrollIntoView({ behavior: "smooth" });
-    } else {
-      router.push(href as string);
+      if (target) {
+        target.scrollIntoView({ behavior: "smooth" });
+      } else {
+        router.push(href);
+      }
     }
   };
 

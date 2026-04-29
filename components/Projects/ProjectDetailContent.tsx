@@ -1,37 +1,19 @@
 "use client";
 
-import { use, useState } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
-import { getProjectBySlug } from "@/app/actions/project";
+import { Project } from "@/payload-types";
 import { ExternalLink } from "@/components/Icons";
 // import { RichText } from "@/components/RichText";
 import { Button } from "@/components/Button";
 
 type ProjectDetailContentProps = {
-  slug: string;
+  project: Project;
 };
 
 export default function ProjectDetailContent({
-  slug,
+  project,
 }: ProjectDetailContentProps) {
-  // Fetch project details within component and suspend while loading
-  const [projectPromise] = useState(() =>
-    getProjectBySlug(slug).catch(() => null),
-  );
-  const project = use(projectPromise);
-
-  if (!project) {
-    return (
-      <div className="flex flex-col items-center justify-center p-20 text-center">
-        <h2 className="headline-md mb-4 font-bold">Project Not Found</h2>
-        <p className="body-lg text-on-surface-variant">
-          We couldn&apos;t find the project you&apos;re looking for.
-        </p>
-      </div>
-    );
-  }
-
   const imageUrl =
     project.featuredImage && typeof project.featuredImage === "object"
       ? project.featuredImage.url

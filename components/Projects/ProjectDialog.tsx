@@ -2,9 +2,9 @@
 
 import * as Dialog from "@radix-ui/react-dialog";
 import dynamic from "next/dynamic";
-import { Suspense } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 import { Close } from "../Icons";
+import { Project } from "@/payload-types";
 
 const ProjectDetailContent = dynamic(() => import("./ProjectDetailContent"), {
   ssr: false,
@@ -12,12 +12,12 @@ const ProjectDetailContent = dynamic(() => import("./ProjectDetailContent"), {
 });
 
 interface ProjectDialogProps {
-  slug: string | null;
+  project: Project | null;
   onOpenChange: (open: boolean) => void;
 }
 
-export const ProjectDialog = ({ slug, onOpenChange }: ProjectDialogProps) => {
-  const isOpen = !!slug;
+export const ProjectDialog = ({ project, onOpenChange }: ProjectDialogProps) => {
+  const isOpen = !!project;
 
   return (
     <Dialog.Root open={isOpen} onOpenChange={onOpenChange}>
@@ -41,9 +41,7 @@ export const ProjectDialog = ({ slug, onOpenChange }: ProjectDialogProps) => {
                   </Dialog.Close>
 
                   <div className="flex-1 overflow-y-auto custom-scrollbar">
-                    <Suspense fallback={<ProjectDetailSkeleton />}>
-                      {slug && <ProjectDetailContent key={slug} slug={slug} />}
-                    </Suspense>
+                    {project && <ProjectDetailContent project={project} />}
                   </div>
                 </motion.div>
               </Dialog.Content>
