@@ -2,6 +2,7 @@
 
 import { cn } from "@/libs/cn";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 
 type ButtonVariants =
   | "primary"
@@ -21,6 +22,7 @@ const Button = ({
   variants = "primary",
   ...restProps
 }: ButtonProps) => {
+  const router = useRouter();
   const variantClass: Record<ButtonVariants, string> = {
     primary: "btn-pixel",
     secondary: "btn-pixel btn-pixel--secondary",
@@ -35,6 +37,8 @@ const Button = ({
 
     if (target) {
       target.scrollIntoView({ behavior: "smooth" });
+    } else {
+      router.push(href as string);
     }
   };
 
@@ -43,8 +47,7 @@ const Button = ({
       href={href}
       className={cn(variantClass[variants], className)}
       onClick={handleClickToScroll}
-      {...restProps}
-    >
+      {...restProps}>
       {children}
     </Link>
   );
