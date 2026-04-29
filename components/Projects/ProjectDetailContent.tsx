@@ -1,10 +1,9 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { use, useState } from "react";
 import Image from "next/image";
 import { motion } from "motion/react";
 import { getProjectBySlug } from "@/app/actions/project";
-import { Project } from "@/payload-types";
 import { ExternalLink } from "@/components/Icons";
 // import { RichText } from "@/components/RichText";
 import { Button } from "@/components/Button";
@@ -16,29 +15,13 @@ type ProjectDetailContentProps = {
 export default function ProjectDetailContent({
   slug,
 }: ProjectDetailContentProps) {
-  // Fetch project details within component
-  const [project, setProject] = useState<Project | null>(null);
-  const [isError, setIsError] = useState(false);
+  // Fetch project details within component and suspend while loading
+  const [projectPromise] = useState(() =>
+    getProjectBySlug(slug).catch(() => null),
+  );
+  const project = use(projectPromise);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const item = await getProjectBySlug(slug);
-
-        if (item) {
-          setProject(item);
-        } else {
-          setIsError(true);
-        }
-      } catch {
-        setIsError(true);
-      }
-    };
-
-    fetchData();
-  }, [slug]);
-
-  if (isError) {
+  if (!project) {
     return (
       <div className="flex flex-col items-center justify-center p-20 text-center">
         <h2 className="headline-md mb-4 font-bold">Project Not Found</h2>
@@ -48,8 +31,6 @@ export default function ProjectDetailContent({
       </div>
     );
   }
-
-  if (!project) return null; // Suspense handles the skeleton before this
 
   const imageUrl =
     project.featuredImage && typeof project.featuredImage === "object"

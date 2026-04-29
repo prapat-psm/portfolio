@@ -42,7 +42,7 @@ export const ProjectDialog = ({ slug, onOpenChange }: ProjectDialogProps) => {
 
                   <div className="flex-1 overflow-y-auto custom-scrollbar">
                     <Suspense fallback={<ProjectDetailSkeleton />}>
-                      {slug && <ProjectDetailContent slug={slug} />}
+                      {slug && <ProjectDetailContent key={slug} slug={slug} />}
                     </Suspense>
                   </div>
                 </motion.div>
