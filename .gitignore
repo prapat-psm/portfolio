@@ -58,3 +58,11 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# AI
+.agent
+.antigravityignore
+.semgrepignore
+
+# etc
+pnpm-security-loop-fix.md
