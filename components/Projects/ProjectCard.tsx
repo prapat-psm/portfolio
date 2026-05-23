@@ -1,7 +1,7 @@
 "use client";
 
 import { Project } from "@/payload-types";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Image from "next/image";
 
 interface ProjectCardProps {
