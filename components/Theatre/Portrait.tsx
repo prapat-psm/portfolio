@@ -33,8 +33,8 @@ const Portrait = ({ className, ...restProps }: PortraitProps) => {
         src="/portrait.gif"
         alt="Prapat Prapatsornmanu"
         preload
-        width={900}
-        height={1200}
+        width={768}
+        height={680}
         className={cn("mx-auto transition-opacity duration-500", is3DReady && "opacity-0")}
         unoptimized
         style={{
@@ -43,7 +43,7 @@ const Portrait = ({ className, ...restProps }: PortraitProps) => {
       />
       {canUse3D && (
         // Larger than the image so cubes can fly in and tilt without being clipped
-        <div className="absolute -inset-[15%]">
+        <div className="absolute -inset-[15%] cursor-pointer">
           <VoxelPortrait onReady={() => setIs3DReady(true)} />
         </div>
       )}

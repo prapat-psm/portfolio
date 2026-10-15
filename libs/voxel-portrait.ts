@@ -8,6 +8,10 @@ export type VoxelGrid = {
   rows: number;
   palette: readonly string[];
   cells: string;
+  /** Same layout as `cells`: "1" marks the pillow hat, which gets its own animation. */
+  hat?: string;
+  /** Cells that change while blinking, as [cell index, palette index]. */
+  blink?: readonly (readonly [number, number])[];
 };
 
 /** One cube of the portrait, centered on the origin with +y up. */
@@ -17,8 +21,9 @@ export type Voxel = {
   /** How far the cube sticks out toward the viewer, in cells (≥ 1). */
   depth: number;
   color: string;
-  /** 0..1: when this cube starts flying into place during the intro. */
-  delay: number;
+  isHat: boolean;
+  /** Color while the eyes are closed, for the few cubes that blink. */
+  blinkColor?: string;
 };
 
 export type Rng = () => number;
@@ -71,13 +76,14 @@ export const distanceToEdge = (grid: VoxelGrid): Int32Array => {
 export const countVoxels = (grid: VoxelGrid): number => grid.cells.replace(/\./g, "").length;
 
 /** Convert the grid into cubes with a rounded relief, so the face bulges like an 8-bit bust. */
-export const buildVoxels = (grid: VoxelGrid, rng: Rng): Voxel[] => {
-  const { cols, rows, palette, cells } = grid;
+export const buildVoxels = (grid: VoxelGrid): Voxel[] => {
+  const { cols, rows, palette, cells, hat, blink } = grid;
   if (cells.length !== cols * rows) {
     throw new Error(`Voxel grid has ${cells.length} cells, expected ${cols * rows}`);
   }
 
   const dist = distanceToEdge(grid);
+  const blinkAt = new Map(blink?.map(([cell, color]) => [cell, palette[color]]));
   const voxels: Voxel[] = [];
 
   for (let i = 0; i < cells.length; i++) {
@@ -92,21 +98,16 @@ export const buildVoxels = (grid: VoxelGrid, rng: Rng): Voxel[] => {
       // sqrt gives a dome rather than a pyramid
       depth: Math.round(1 + RELIEF_DEPTH * Math.sqrt(t)),
       color: palette[parseInt(cells[i], 36)],
-      // Build from the bottom up, with some jitter so it feels hand-placed
-      delay: ((rows - 1 - r) / Math.max(1, rows - 1)) * 0.6 + rng() * 0.4,
+      isHat: hat?.[i] === "1",
+      blinkColor: blinkAt.get(i),
     });
   }
   return voxels;
 };
 
-/** easeOutBack: overshoots slightly, like a block snapping into place. */
-export const easeOutBack = (t: number): number => {
-  const c1 = 1.70158;
-  const c3 = c1 + 1;
-  const x = Math.min(1, Math.max(0, t));
-  return 1 + c3 * (x - 1) ** 3 + c1 * (x - 1) ** 2;
-};
+/** Random gap between blinks, in seconds (people blink every few seconds, never on a beat). */
+export const nextBlinkDelay = (rng: Rng): number => 2.5 + rng() * 3.5;
 
-/** Progress of one cube given the intro's overall progress (0..1) and the cube's delay. */
-export const voxelProgress = (introProgress: number, delay: number, span = 0.35): number =>
-  Math.min(1, Math.max(0, (introProgress * (1 + span) - delay) / span));
+/** Pillow "puff": extra depth for hat cubes over time, a slow breath with a ripple across the brim. */
+export const hatPuff = (time: number, x: number): number =>
+  0.35 * (1 + Math.sin(time * 1.6 - x * 0.12));

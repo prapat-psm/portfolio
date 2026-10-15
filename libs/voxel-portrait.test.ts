@@ -3,15 +3,13 @@ import {
   buildVoxels,
   countVoxels,
   distanceToEdge,
-  easeOutBack,
-  voxelProgress,
+  hatPuff,
+  nextBlinkDelay,
   type VoxelGrid,
 } from "./voxel-portrait";
 import { PORTRAIT_VOXELS } from "@/components/Theatre/portrait-voxels.data";
 
-const fixedRng = () => 0.5;
-
-// 7x7 filled block inside an empty border
+// 7x7 filled block inside an empty border; the top row is "hat", the center blinks white
 const block: VoxelGrid = {
   cols: 9,
   rows: 9,
@@ -27,6 +25,8 @@ const block: VoxelGrid = {
     ".0000000.",
     ".........",
   ].join(""),
+  hat: "0".repeat(9) + "011111110" + "0".repeat(63),
+  blink: [[4 * 9 + 4, 0]],
 };
 
 describe("distanceToEdge", () => {
@@ -39,7 +39,7 @@ describe("distanceToEdge", () => {
 });
 
 describe("buildVoxels", () => {
-  const voxels = buildVoxels(block, fixedRng);
+  const voxels = buildVoxels(block);
 
   it("makes one cube per filled cell", () => {
     expect(voxels).toHaveLength(49);
@@ -64,32 +64,36 @@ describe("buildVoxels", () => {
     expect(center.depth).toBeGreaterThan(edge.depth);
   });
 
-  it("assembles bottom rows first", () => {
-    const top = voxels.find((v) => v.y === 3)!;
-    const bottom = voxels.find((v) => v.y === -3)!;
-    expect(bottom.delay).toBeLessThan(top.delay);
+  it("marks hat cubes and blink colors", () => {
+    expect(voxels.filter((v) => v.isHat)).toHaveLength(7);
+    expect(voxels.find((v) => v.x === 0 && v.y === 0)?.blinkColor).toBe("#000000");
+    expect(voxels.filter((v) => v.blinkColor)).toHaveLength(1);
   });
 
   it("rejects a grid whose size does not match", () => {
-    expect(() => buildVoxels({ ...block, cols: 8 }, fixedRng)).toThrow();
+    expect(() => buildVoxels({ ...block, cols: 8 })).toThrow();
   });
 
   it("parses the generated portrait", () => {
-    const portrait = buildVoxels(PORTRAIT_VOXELS, fixedRng);
+    const portrait = buildVoxels(PORTRAIT_VOXELS);
     expect(portrait.length).toBeGreaterThan(1000);
     expect(portrait.every((v) => /^#[0-9a-f]{6}$/.test(v.color))).toBe(true);
+    expect(portrait.some((v) => v.isHat)).toBe(true);
+    expect(portrait.filter((v) => v.blinkColor).length).toBeGreaterThan(0);
   });
 });
 
 describe("animation helpers", () => {
-  it("easeOutBack starts at 0, ends at 1 and overshoots in between", () => {
-    expect(easeOutBack(0)).toBeCloseTo(0);
-    expect(easeOutBack(1)).toBeCloseTo(1);
-    expect(Math.max(...[0.6, 0.7, 0.8].map(easeOutBack))).toBeGreaterThan(1);
+  it("blinks at irregular gaps of a few seconds", () => {
+    expect(nextBlinkDelay(() => 0)).toBe(2.5);
+    expect(nextBlinkDelay(() => 1)).toBe(6);
   });
 
-  it("every cube has landed when the intro ends", () => {
-    expect(voxelProgress(1, 1)).toBe(1);
-    expect(voxelProgress(0, 0)).toBe(0);
+  it("hat puff stays a small, non-negative extra depth", () => {
+    for (let t = 0; t < 10; t += 0.37) {
+      const puff = hatPuff(t, 5);
+      expect(puff).toBeGreaterThanOrEqual(0);
+      expect(puff).toBeLessThanOrEqual(0.7);
+    }
   });
 });
