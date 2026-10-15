@@ -1,77 +1,107 @@
 "use server";
 
+import { headers } from "next/headers";
 import { Resend } from "resend";
-import { z } from "zod";
 import { ResponseEmail } from "@/emails/ResponseEmail";
 import { NotificationEmail } from "@/emails/NotificationEmail";
+import { createRateLimiter } from "@/libs/rate-limit";
+import {
+  contactSchema,
+  HONEYPOT_FIELD,
+  type ContactFormState,
+} from "@/libs/schemas/contact";
 
-// Schema for the server-side as well
-const contactSchema = z.object({
-  company: z.string().min(1, "Company name is required"),
-  email: z.string().email("Invalid email address"),
-  tel: z.string().min(1, "Telephone is required"),
-});
+// Resend's shared test sender. It can only deliver to the Resend account owner.
+const TEST_SENDER = "Portfolio Contact <onboarding@resend.dev>";
 
-type FormState = {
-  success: boolean;
-  error?: string | null;
-  fieldErrors?: Record<string, string[]>;
-  timestamp?: number;
+const isAllowed = createRateLimiter({ limit: 3, windowMs: 10 * 60 * 1000 });
+
+const getClientIp = async () => {
+  const h = await headers();
+  return h.get("x-forwarded-for")?.split(",")[0]?.trim() || h.get("x-real-ip") || "unknown";
 };
 
-const resend = new Resend(process.env.RESEND_API_KEY || "re_dummy_key");
-
 export async function submitContactForm(
-  prevState: FormState,
+  _prevState: ContactFormState,
   formData: FormData,
-): Promise<FormState> {
-  const company = formData.get("company") as string;
-  const email = formData.get("email") as string;
-  const tel = formData.get("tel") as string;
+): Promise<ContactFormState> {
+  const timestamp = Date.now();
 
-  // Validate using zod
-  const validatedFields = contactSchema.safeParse({ company, email, tel });
+  // Bot filled the hidden field: pretend it worked, send nothing.
+  if (formData.get(HONEYPOT_FIELD)) {
+    return { success: true, timestamp };
+  }
+
+  const validatedFields = contactSchema.safeParse({
+    company: formData.get("company"),
+    email: formData.get("email"),
+    tel: formData.get("tel"),
+  });
 
   if (!validatedFields.success) {
     return {
       success: false,
       fieldErrors: validatedFields.error.flatten().fieldErrors,
-      timestamp: Date.now(),
+      timestamp,
     };
   }
 
-  try {
-    // 1. Send an email to the person who submitted the form
-    await resend.emails.send({
-      from: "Portfolio Contact <noreply@resend.dev>", // you should verify your own domain
-      to: validatedFields.data.email,
-      subject: "Thank you for reaching out",
-      react: ResponseEmail({
-        company: validatedFields.data.company,
-        email: validatedFields.data.email,
-        tel: validatedFields.data.tel,
-      }),
-    });
+  if (!isAllowed(await getClientIp())) {
+    return {
+      success: false,
+      error: "Too many messages. Please try again later.",
+      timestamp,
+    };
+  }
 
-    // 2. Send the form submitter data to prapat.psm@gmail.com
-    await resend.emails.send({
-      from: "Portfolio Contact <noreply@resend.dev>",
-      to: "prapat.psm@gmail.com",
-      subject: `New Contact Submission from ${validatedFields.data.company}`,
-      react: NotificationEmail({
-        company: validatedFields.data.company,
-        email: validatedFields.data.email,
-        tel: validatedFields.data.tel,
-      }),
-    });
-
-    return { success: true, timestamp: Date.now() };
-  } catch (err) {
-    console.error("Error sending email:", err);
+  const apiKey = process.env.RESEND_API_KEY;
+  if (!apiKey) {
+    console.error("RESEND_API_KEY is not set");
     return {
       success: false,
       error: "Failed to send email. Please try again later.",
-      timestamp: Date.now(),
+      timestamp,
     };
   }
+
+  const resend = new Resend(apiKey);
+  const data = validatedFields.data;
+  // Set CONTACT_FROM_EMAIL to an address on a domain verified in Resend.
+  const verifiedSender = process.env.CONTACT_FROM_EMAIL;
+  const ownerEmail = process.env.CONTACT_TO_EMAIL || "prapat.psm@gmail.com";
+
+  // 1. Notify the owner first: this is the email that must not get lost.
+  const { error: notifyError } = await resend.emails.send({
+    from: verifiedSender || TEST_SENDER,
+    to: ownerEmail,
+    replyTo: data.email,
+    subject: `New Contact Submission from ${data.company}`,
+    react: NotificationEmail(data),
+  });
+
+  if (notifyError) {
+    console.error("Error sending notification email:", notifyError);
+    return {
+      success: false,
+      error: "Failed to send email. Please try again later.",
+      timestamp,
+    };
+  }
+
+  // 2. Auto-reply to the visitor, only from a verified domain.
+  //    A failure here is logged but doesn't fail the submission.
+  if (verifiedSender) {
+    const { error: replyError } = await resend.emails.send({
+      from: verifiedSender,
+      to: data.email,
+      subject: "Thank you for reaching out",
+      react: ResponseEmail(data),
+    });
+
+    if (replyError) {
+      console.error("Error sending auto-reply email:", replyError);
+    }
+  }
+
+  return { success: true, timestamp };
 }

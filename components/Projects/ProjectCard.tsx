@@ -2,19 +2,17 @@
 
 import { useState } from "react";
 import { Project } from "@/payload-types";
-import { motion } from "framer-motion";
+import { motion } from "motion/react";
 import Image from "next/image";
 
 interface ProjectCardProps {
   project: Project;
   onOpen?: () => void;
-  isLoading?: boolean;
 }
 
 export const ProjectCard = ({
   project,
   onOpen,
-  isLoading,
 }: ProjectCardProps) => {
   const [isImageLoading, setIsImageLoading] = useState(true);
   const imageUrl =
@@ -63,19 +61,6 @@ export const ProjectCard = ({
             </div>
             <span className="text-[10px] font-press-start-2p text-on-surface-variant tracking-wider animate-pulse">
               LOADING...
-            </span>
-          </div>
-        )}
-        {isLoading && (
-          <div className="absolute inset-0 bg-surface/80 flex flex-col items-center justify-center gap-3 z-20 backdrop-blur-[1px]">
-            {/* Retro Pixelated Loader for Dialog fetching */}
-            <div className="flex gap-1">
-              <span className="w-4 h-4 bg-primary animate-[bounce_0.6s_infinite_0.1s]" />
-              <span className="w-4 h-4 bg-secondary animate-[bounce_0.6s_infinite_0.2s]" />
-              <span className="w-4 h-4 bg-tertiary animate-[bounce_0.6s_infinite_0.3s]" />
-            </div>
-            <span className="text-xs font-press-start-2p text-primary animate-pulse">
-              LOADING PROJECT...
             </span>
           </div>
         )}

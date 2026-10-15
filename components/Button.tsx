@@ -20,6 +20,7 @@ const Button = ({
   children,
   href,
   variants = "primary",
+  onClick,
   ...restProps
 }: ButtonProps) => {
   const router = useRouter();
@@ -32,6 +33,9 @@ const Button = ({
   };
 
   const handleClickToScroll = (e: React.MouseEvent<HTMLAnchorElement>) => {
+    onClick?.(e);
+    if (e.defaultPrevented) return;
+
     if (typeof href === "string" && href.startsWith("#")) {
       e.preventDefault();
       const target = document.querySelector(href);
@@ -48,8 +52,8 @@ const Button = ({
     <Link
       href={href}
       className={cn(variantClass[variants], className)}
-      onClick={handleClickToScroll}
-      {...restProps}>
+      {...restProps}
+      onClick={handleClickToScroll}>
       {children}
     </Link>
   );

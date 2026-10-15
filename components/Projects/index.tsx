@@ -1,15 +1,9 @@
-import { getPayload } from "payload";
-import config from "@payload-config";
+import { getProjects } from "@/libs/data";
 import { SectionHeader } from "../SectionHeader";
 import { ProjectList } from "./ProjectList";
 
 const Projects = async ({ ...restProps }: React.ComponentProps<"section">) => {
-  const payload = await getPayload({ config });
-
-  const { docs: projects } = await payload.find({
-    collection: "projects",
-    sort: "_order",
-  });
+  const projects = await getProjects();
 
   if (projects.length === 0) return null;
 

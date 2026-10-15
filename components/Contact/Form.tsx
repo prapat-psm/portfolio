@@ -3,35 +3,34 @@
 import { useActionState, useEffect, useRef } from "react";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { motion, AnimatePresence } from "motion/react";
 import { submitContactForm } from "@/app/actions/contact";
 import { Alert, Building, Checked, Loader, Mail, Phone, Send } from "../Icons";
 import { cn } from "@/libs/cn";
+import {
+  contactSchema,
+  HONEYPOT_FIELD,
+  type ContactFormState,
+  type ContactFormValues,
+} from "@/libs/schemas/contact";
 import { InputField } from "./InputField";
 
-const contactSchema = z.object({
-  company: z.string().min(1, "Company name is required"),
-  email: z.email("Invalid email address"),
-  tel: z.string().min(1, "Telephone is required"),
-});
-
-type FormValues = z.infer<typeof contactSchema>;
+const initialState: ContactFormState = { success: false, error: null };
 
 const Form = () => {
   const formRef = useRef<HTMLFormElement>(null);
 
-  const [state, formAction, isPending] = useActionState(submitContactForm, {
-    success: false,
-    error: null,
-  });
+  const [state, formAction, isPending] = useActionState(
+    submitContactForm,
+    initialState,
+  );
 
   const {
     register,
     trigger,
     reset,
     formState: { errors: clientErrors },
-  } = useForm<FormValues>({
+  } = useForm<ContactFormValues>({
     resolver: zodResolver(contactSchema),
     mode: "onSubmit",
   });
@@ -62,6 +61,16 @@ const Form = () => {
               }
             }}
             className="space-y-6">
+            {/* Honeypot: hidden from people and screen readers, bots fill it */}
+            <input
+              type="text"
+              name={HONEYPOT_FIELD}
+              tabIndex={-1}
+              autoComplete="off"
+              aria-hidden="true"
+              className="absolute -left-[9999px] size-px opacity-0"
+            />
+
             <InputField
               id="company"
               label="Company"

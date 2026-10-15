@@ -1,17 +1,11 @@
-import config from "@payload-config";
-import { getPayload } from "payload";
+import { getWorkExperiences } from "@/libs/data";
 import { SectionHeader } from "../SectionHeader";
 import { WorkExperienceItem } from "./WorkExperienceItem";
 
 const WorkExperience = async ({}: React.ComponentProps<"section">) => {
-  const payload = await getPayload({ config });
+  const experiences = await getWorkExperiences();
 
-  const { docs: experiences } = await payload.find({
-    collection: "work-experiences",
-    sort: "-yearStart", // Show newest first
-  });
-
-  if (!experiences || experiences.length === 0) return null;
+  if (experiences.length === 0) return null;
 
   return (
     <section id="experiences" className="c-section">
