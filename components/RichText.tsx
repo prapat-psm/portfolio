@@ -26,7 +26,11 @@ const jsxConverters: JSXConvertersFunction = ({ defaultConverters }) => {
     list: ({ node, nodesToJSX }) => {
       const Tag = node.tag === "ol" ? "ol" : "ul";
       return (
-        <Tag className="pl-5 space-y-1 list-disc list-outside">
+        <Tag
+          className={cn(
+            "pl-5 space-y-1 list-outside",
+            Tag === "ol" ? "list-decimal" : "list-disc",
+          )}>
           {nodesToJSX({
             nodes: node.children,
           })}

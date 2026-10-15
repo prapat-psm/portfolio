@@ -28,7 +28,7 @@ const pressStart2P = Press_Start_2P({
 export const metadata: Metadata = {
   title: "Prapat's Portfolio",
   description:
-    "A high-end editorial portfolio for a senior frontend developer.",
+    "Prapat Prapatsornmanu, senior frontend developer. Projects, tech stack and work experience built with Next.js.",
 };
 
 export default function RootLayout({

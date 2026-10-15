@@ -11,6 +11,10 @@ import { Stacks } from "@/collections/Stacks";
 import { Media } from "@/collections/Media";
 import { WorkExperiences } from "./collections/WorkExperiences";
 
+if (!process.env.PAYLOAD_SECRET) {
+  throw new Error("PAYLOAD_SECRET is not set. Add it to your .env file.");
+}
+
 const filename = fileURLToPath(import.meta.url);
 const dirname = path.dirname(filename);
 
@@ -31,7 +35,7 @@ export default buildConfig({
   collections: [Media, Projects, Skills, Stacks, WorkExperiences],
 
   // Your Payload secret - should be a complex and secure string, unguessable
-  secret: process.env.PAYLOAD_SECRET || "",
+  secret: process.env.PAYLOAD_SECRET,
   // Whichever Database Adapter you're using should go here
 
   // Configure the Postgres adapter here
@@ -39,7 +43,7 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || "",
     },
-    push: true, // This enables automatic migrations in development
+    push: true, // Payload only pushes schema changes in development; use migrations for production
   }),
   // If you want to resize images, crop, set focal point, etc.
   // make sure to install it and pass it to the config.

@@ -1,40 +1,35 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Prapat's Portfolio
 
-## Getting Started
+Pixel-art portfolio built with Next.js 16 (App Router), Payload CMS 3 (Postgres + S3 media), Tailwind CSS 4 and Motion. The contact form sends email through Resend.
 
-First, run the development server:
+## Setup
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+cp .env.example .env   # fill in the values
+npm run dev            # site: http://localhost:3000, CMS: http://localhost:3000/admin
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Use **npm** only (`package-lock.json` is the single lockfile).
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+| Variable | Purpose |
+|---|---|
+| `PAYLOAD_SECRET` | Required. Long random string for Payload auth. |
+| `DATABASE_URL` | Postgres connection string. Also needed at `next build`, because `/` is prerendered. |
+| `S3_*` | Bucket for the `media` collection. |
+| `RESEND_API_KEY` | Resend API key for the contact form. |
+| `CONTACT_FROM_EMAIL` | Sender on a domain verified in Resend. Empty = Resend test sender, owner notification only, no auto-reply. |
+| `CONTACT_TO_EMAIL` | Where contact submissions are delivered. |
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Scripts
 
-## Learn More
+| Script | What it does |
+|---|---|
+| `npm run dev` / `build` / `start` | Next.js |
+| `npm run lint` | ESLint |
+| `npm test` / `npm run test:watch` | Vitest |
+| `npm run gen` | Regenerate Payload types and admin import map |
 
-To learn more about Next.js, take a look at the following resources:
+## How content updates
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
-
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
-
-## Portfolio
-
-To showcase my portfolio of work.
+Home page data is read through `libs/data.ts` (`unstable_cache` with tags). Payload `afterChange` / `afterDelete` hooks (`libs/revalidate.ts`) call `revalidateTag` and `revalidatePath("/")`, so edits in `/admin` show up without a redeploy.
