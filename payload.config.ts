@@ -50,7 +50,8 @@ export default buildConfig({
     // Dev: schema is pushed automatically. Prod: run committed migrations on connect.
     // After changing collections/globals, run `npm run migrate:create <name>` and commit it.
     push: true,
-    prodMigrations: migrations,
+    // Vercel previews share the production DATABASE_URL, so only production deploys migrate.
+    prodMigrations: process.env.VERCEL_ENV === "preview" ? undefined : migrations,
   }),
   // If you want to resize images, crop, set focal point, etc.
   // make sure to install it and pass it to the config.
