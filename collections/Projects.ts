@@ -1,3 +1,5 @@
+import { CACHE_TAGS } from "@/libs/cache-tags";
+import { revalidateCollection } from "@/libs/revalidate";
 import { CollectionConfig, FieldHook } from "payload";
 
 const format = (val: string): string =>
@@ -31,6 +33,7 @@ export const Projects: CollectionConfig = {
     read: () => true,
   },
   orderable: true,
+  hooks: revalidateCollection([CACHE_TAGS.projects]),
   fields: [
     {
       name: "title",

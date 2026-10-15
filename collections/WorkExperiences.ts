@@ -1,3 +1,5 @@
+import { CACHE_TAGS } from '@/libs/cache-tags'
+import { revalidateCollection } from '@/libs/revalidate'
 import { CollectionConfig } from 'payload'
 
 export const WorkExperiences: CollectionConfig = {
@@ -9,6 +11,7 @@ export const WorkExperiences: CollectionConfig = {
   access: {
     read: () => true,
   },
+  hooks: revalidateCollection([CACHE_TAGS.workExperiences]),
   fields: [
     {
       name: 'companyName',

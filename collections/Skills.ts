@@ -1,3 +1,5 @@
+import { CACHE_TAGS } from '@/libs/cache-tags'
+import { revalidateCollection } from '@/libs/revalidate'
 import { CollectionConfig } from 'payload'
 
 export const Skills: CollectionConfig = {
@@ -8,6 +10,7 @@ export const Skills: CollectionConfig = {
   access: {
     read: () => true,
   },
+  hooks: revalidateCollection(Object.values(CACHE_TAGS)),
   fields: [
     {
       name: 'name',

@@ -1,3 +1,5 @@
+import { CACHE_TAGS } from "@/libs/cache-tags";
+import { revalidateCollection } from "@/libs/revalidate";
 import { CollectionConfig } from "payload";
 
 const themeColors = [
@@ -29,6 +31,7 @@ export const Stacks: CollectionConfig = {
     read: () => true,
   },
   orderable: true,
+  hooks: revalidateCollection([CACHE_TAGS.stacks]),
   fields: [
     {
       name: "title",
