@@ -9,13 +9,14 @@
     "lint": "eslint",
     "gen:types": "payload generate:types",
     "gen:importmap": "payload generate:importmap",
-    "gen": "payload generate:types && payload generate:importmap"
+    "gen": "payload generate:types && payload generate:importmap",
+    "test": "vitest run",
+    "test:watch": "vitest"
   },
   "type": "module",
   "dependencies": {
     "@hookform/resolvers": "^5.2.2",
     "@payloadcms/db-postgres": "3.80.0",
-    "@payloadcms/db-sqlite": "3.80.0",
     "@payloadcms/next": "3.80.0",
     "@payloadcms/richtext-lexical": "3.80.0",
     "@payloadcms/storage-s3": "3.80.0",
@@ -31,18 +32,24 @@
     "react-dom": "19.2.4",
     "react-hook-form": "^7.72.0",
     "resend": "^6.9.4",
+    "server-only": "^0.0.1",
     "sharp": "^0.34.5",
     "tailwind-merge": "^3.5.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4",
+    "@testing-library/dom": "^10.4.2",
+    "@testing-library/react": "^16.3.3",
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.2.1",
+    "jsdom": "^29.1.1",
     "tailwindcss": "^4",
-    "typescript": "^5"
-  }
+    "typescript": "^5",
+    "vitest": "^3.2.7"
+  },
+  "packageManager": "npm@10.9.4"
 }
