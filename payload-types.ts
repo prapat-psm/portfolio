@@ -78,7 +78,13 @@ export interface Config {
     'payload-preferences': PayloadPreference;
     'payload-migrations': PayloadMigration;
   };
-  collectionsJoins: {};
+  collectionsJoins: {
+    skills: {
+      usedInProjects: 'projects';
+      usedInStacks: 'stacks';
+      usedInWorkExperiences: 'work-experiences';
+    };
+  };
   collectionsSelect: {
     media: MediaSelect<false> | MediaSelect<true>;
     projects: ProjectsSelect<false> | ProjectsSelect<true>;
@@ -194,6 +200,21 @@ export interface Skill {
    * ชื่อของเทคโนโลยีหรือสกิล (เช่น React, Node.js, TypeScript)
    */
   name: string;
+  usedInProjects?: {
+    docs?: (number | Project)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  usedInStacks?: {
+    docs?: (number | Stack)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
+  usedInWorkExperiences?: {
+    docs?: (number | WorkExperience)[];
+    hasNextPage?: boolean;
+    totalDocs?: number;
+  };
   updatedAt: string;
   createdAt: string;
 }
@@ -438,6 +459,9 @@ export interface ProjectsSelect<T extends boolean = true> {
  */
 export interface SkillsSelect<T extends boolean = true> {
   name?: T;
+  usedInProjects?: T;
+  usedInStacks?: T;
+  usedInWorkExperiences?: T;
   updatedAt?: T;
   createdAt?: T;
 }
