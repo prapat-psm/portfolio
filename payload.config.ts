@@ -10,6 +10,7 @@ import { Skills } from "@/collections/Skills";
 import { Stacks } from "@/collections/Stacks";
 import { Media } from "@/collections/Media";
 import { WorkExperiences } from "./collections/WorkExperiences";
+import { Profile } from "@/globals/Profile";
 
 if (!process.env.PAYLOAD_SECRET) {
   throw new Error("PAYLOAD_SECRET is not set. Add it to your .env file.");
@@ -33,6 +34,7 @@ export default buildConfig({
 
   // Define and configure your collections in this array
   collections: [Media, Projects, Skills, Stacks, WorkExperiences],
+  globals: [Profile],
 
   // Your Payload secret - should be a complex and secure string, unguessable
   secret: process.env.PAYLOAD_SECRET,

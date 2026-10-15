@@ -25,7 +25,7 @@ export const Stacks: CollectionConfig = {
   slug: "stacks",
   admin: {
     useAsTitle: "title",
-    defaultColumns: ["title", "order", "icon", "color", "skills"],
+    defaultColumns: ["title", "icon", "color", "skills"],
   },
   access: {
     read: () => true,
@@ -82,16 +82,6 @@ export const Stacks: CollectionConfig = {
       admin: {
         description:
           "เลือกสกิลย่อยที่อยู่ในหมวดหมู่นี้ โดยเลือกจากคอลเลกชัน Skills",
-      },
-    },
-    {
-      name: "order",
-      type: "number",
-      label: "Display Order",
-      defaultValue: 0,
-      admin: {
-        position: "sidebar",
-        description: "จัดลำดับการแสดงผลบนหน้าเว็บไซต์ (ค่าน้อยจะแสดงก่อน)",
       },
     },
   ],

@@ -20,7 +20,7 @@ const Portrait = ({ className, ...restProps }: PortraitProps) => {
       <Image
         src="/portrait.gif"
         alt="Prapat Prapatsornmanu"
-        loading="eager"
+        preload
         width={900}
         height={1200}
         className="mx-auto"

@@ -4,6 +4,20 @@ import { motion, useAnimation, type Transition } from "motion/react";
 import { useEffect, useRef, useState } from "react";
 import { usePreload } from "@/components/Preload/PreloadProvider";
 
+const PLAYED_KEY = "preload-played";
+
+/** Skip the intro after the first visit in a tab, or when the OS asks for less motion. */
+const shouldSkipIntro = () => {
+  try {
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return true;
+    if (sessionStorage.getItem(PLAYED_KEY)) return true;
+    sessionStorage.setItem(PLAYED_KEY, "1");
+  } catch {
+    // sessionStorage can throw in private mode; just play the intro
+  }
+  return false;
+};
+
 const Preload = () => {
   const [isDone, setIsDone] = useState(false);
 
@@ -21,6 +35,12 @@ const Preload = () => {
 
     const sequence = async () => {
       if (!mounted) return;
+
+      if (shouldSkipIntro()) {
+        setIsDone(true);
+        setPreloadFinished();
+        return;
+      }
 
       // 1. Initial State (ซ่อน G1, G2 นอกกรอบ SVG สู่ด้านล่าง)
       wrapperControls.set({ x: 0, y: 0 }); // กรอบหลักอยู่ตรงกลาง

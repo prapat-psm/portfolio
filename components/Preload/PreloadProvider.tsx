@@ -1,6 +1,14 @@
 "use client";
 
-import { createContext, useContext, useState, ReactNode, useEffect } from "react";
+import {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  type ReactNode,
+} from "react";
+import { MotionConfig } from "motion/react";
 
 type PreloadContextType = {
   isPreloadFinished: boolean;
@@ -12,7 +20,8 @@ const PreloadContext = createContext<PreloadContextType | undefined>(undefined);
 export const PreloadProvider = ({ children }: { children: ReactNode }) => {
   const [isPreloadFinished, setIsPreloadFinished] = useState(false);
 
-  const setPreloadFinished = () => setIsPreloadFinished(true);
+  // Stable identity: Preload's effect depends on it, so a new function per render would restart the intro
+  const setPreloadFinished = useCallback(() => setIsPreloadFinished(true), []);
 
   // Audio Unlocking Logic
   useEffect(() => {
@@ -41,7 +50,8 @@ export const PreloadProvider = ({ children }: { children: ReactNode }) => {
 
   return (
     <PreloadContext.Provider value={{ isPreloadFinished, setPreloadFinished }}>
-      {children}
+      {/* Respect the OS "reduce motion" setting for every motion component */}
+      <MotionConfig reducedMotion="user">{children}</MotionConfig>
     </PreloadContext.Provider>
   );
 };

@@ -13,5 +13,7 @@ export default defineConfig({
     include: ["**/*.test.{ts,tsx}"],
     exclude: ["node_modules/**", ".next/**"],
     restoreMocks: true,
+    unstubEnvs: true,
+    unstubGlobals: true,
   },
 });
