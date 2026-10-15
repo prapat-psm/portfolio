@@ -1,6 +1,7 @@
 import { CACHE_TAGS } from '@/libs/cache-tags'
 import { revalidateCollection } from '@/libs/revalidate'
 import { CollectionConfig } from 'payload'
+import { clearEndDateWhenCurrent, validateEndDate } from './hooks/workExperienceDates'
 
 export const WorkExperiences: CollectionConfig = {
   slug: 'work-experiences',
@@ -11,7 +12,10 @@ export const WorkExperiences: CollectionConfig = {
   access: {
     read: () => true,
   },
-  hooks: revalidateCollection([CACHE_TAGS.workExperiences]),
+  hooks: {
+    ...revalidateCollection([CACHE_TAGS.workExperiences]),
+    beforeValidate: [clearEndDateWhenCurrent],
+  },
   fields: [
     {
       name: 'companyName',
@@ -49,6 +53,7 @@ export const WorkExperiences: CollectionConfig = {
           name: 'yearEnd',
           type: 'date',
           label: 'End Date',
+          validate: validateEndDate,
           admin: {
             date: {
               pickerAppearance: 'monthOnly',
