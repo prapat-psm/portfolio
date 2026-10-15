@@ -8,6 +8,7 @@ import { PreloadProvider } from "@/components/Preload/PreloadProvider";
 import { Preload } from "@/components/Preload";
 import { PageTransitionProvider } from "@/components/PageTransition/PageTransitionProvider";
 import { getSiteUrl } from "@/libs/site-url";
+import { SiteAnalytics } from "@/components/Analytics/SiteAnalytics";
 
 const silkscreen = Silkscreen({
   variable: "--font-silkscreen",
@@ -71,6 +72,7 @@ export default function RootLayout({
             <FloatingButton />
           </PageTransitionProvider>
         </PreloadProvider>
+        <SiteAnalytics />
       </body>
     </html>
   );

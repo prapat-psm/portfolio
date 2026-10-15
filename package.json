@@ -26,6 +26,8 @@
     "@radix-ui/react-dialog": "^1.1.15",
     "@react-email/components": "^1.0.10",
     "@react-three/fiber": "^9.8.2",
+    "@vercel/analytics": "^2.0.1",
+    "@vercel/speed-insights": "^2.0.0",
     "clsx": "^2.1.1",
     "graphql": "^16.13.2",
     "lucide-react": "^1.7.0",
