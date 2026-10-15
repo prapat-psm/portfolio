@@ -1,0 +1,7 @@
+# Exclude package manager folders and symlinks
+node_modules/
+.pnpm/
+dist/
+.next/
+.agent/
+.git/
