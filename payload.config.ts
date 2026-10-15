@@ -4,6 +4,7 @@ import sharp from "sharp";
 import { lexicalEditor } from "@payloadcms/richtext-lexical";
 import { postgresAdapter } from "@payloadcms/db-postgres";
 import { buildConfig } from "payload";
+import { migrations } from "./migrations";
 import { s3Storage } from "@payloadcms/storage-s3";
 import { Projects } from "@/collections/Projects";
 import { Skills } from "@/collections/Skills";
@@ -45,7 +46,12 @@ export default buildConfig({
     pool: {
       connectionString: process.env.DATABASE_URL || "",
     },
-    push: true, // Payload only pushes schema changes in development; use migrations for production
+    migrationDir: path.resolve(dirname, "migrations"),
+    // Dev: schema is pushed automatically. Prod: run committed migrations on connect.
+    // After changing collections/globals, run `npm run migrate:create <name>` and commit it.
+    push: true,
+    // Vercel previews share the production DATABASE_URL, so only production deploys migrate.
+    prodMigrations: process.env.VERCEL_ENV === "preview" ? undefined : migrations,
   }),
   // If you want to resize images, crop, set focal point, etc.
   // make sure to install it and pass it to the config.
