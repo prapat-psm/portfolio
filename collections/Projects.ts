@@ -1,5 +1,6 @@
 import { CACHE_TAGS } from "@/libs/cache-tags";
 import { revalidateCollection } from "@/libs/revalidate";
+import { validateHttpUrl } from "@/libs/validators";
 import { CollectionConfig, FieldHook } from "payload";
 
 const format = (val: string): string =>
@@ -93,8 +94,18 @@ export const Projects: CollectionConfig = {
           name: "websiteUrl",
           type: "text",
           label: "Live Website URL",
+          validate: validateHttpUrl,
         },
       ],
+    },
+    {
+      name: "role",
+      type: "text",
+      label: "Role / Focus",
+      admin: {
+        position: "sidebar",
+        description: "บทบาทของคุณในโปรเจคนี้ (เช่น Lead Frontend Developer)",
+      },
     },
     {
       name: "completionDate",

@@ -23,15 +23,15 @@ export const ResponseEmail = ({
 }: ResponseEmailProps) => (
   <Html>
     <Head />
-    <Preview>Thank you for reaching out to us, {company}!</Preview>
+    <Preview>Thanks for reaching out, {company}!</Preview>
     <Body style={main}>
       <Container style={container}>
-        <Heading style={h1}>Thank you for contacting us</Heading>
+        <Heading style={h1}>Thank you for getting in touch</Heading>
         <Text style={text}>
           Hi there,
         </Text>
         <Text style={text}>
-          We have received your message and will be in touch shortly. Here is a summary of the information you provided:
+          I have received your message and will get back to you soon. Here is a summary of the information you provided:
         </Text>
         <Section style={detailsContainer}>
           <Text style={detailsText}><strong>Company:</strong> {company}</Text>
@@ -40,7 +40,7 @@ export const ResponseEmail = ({
         </Section>
         <Text style={text}>
           Best regards,<br />
-          The Team
+          Prapat Prapatsornmanu
         </Text>
       </Container>
     </Body>

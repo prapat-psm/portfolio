@@ -1,5 +1,9 @@
 import { revalidatePath, revalidateTag } from "next/cache";
-import type { CollectionAfterChangeHook, CollectionAfterDeleteHook } from "payload";
+import type {
+  CollectionAfterChangeHook,
+  CollectionAfterDeleteHook,
+  GlobalAfterChangeHook,
+} from "payload";
 
 /**
  * Payload hooks that mark cached data (and the home page) as stale after an edit in the admin.
@@ -15,7 +19,7 @@ export const revalidateCollection = (tags: readonly string[]) => {
     }
   };
 
-  const afterChange: CollectionAfterChangeHook = ({ doc }) => {
+  const afterChange: CollectionAfterChangeHook & GlobalAfterChangeHook = ({ doc }) => {
     revalidate();
     return doc;
   };

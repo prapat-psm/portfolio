@@ -7,9 +7,9 @@ const Contact = () => {
       <div className="c-container space-y-10">
         <SectionHeader
           title="Let's Keep in touch"
-          description={`Ready to bring your digital vision to life?\nFill out the form below and we'll get back to you within 24 hours.`}
+          description={`Ready to bring your digital vision to life?\nFill out the form below and I'll get back to you soon.`}
         />
-        <Form />
+        <Form turnstileSiteKey={process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY} />
       </div>
     </section>
   );

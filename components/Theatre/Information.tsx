@@ -26,7 +26,11 @@ const itemVariants: Variants = {
   },
 };
 
-const Information = () => {
+type InformationProps = {
+  resumeUrl: string;
+};
+
+const Information = ({ resumeUrl }: InformationProps) => {
   const { isPreloadFinished } = usePreload();
 
   return (
@@ -75,9 +79,10 @@ const Information = () => {
         </Button>
 
         <Link
-          href="https://wbcylprqunqsmppnlprf.supabase.co/storage/v1/object/sign/resume/Resume%20Prapat%20Prapatsornmanu.pdf?token=eyJraWQiOiJzdG9yYWdlLXVybC1zaWduaW5nLWtleV9mZTc2YmY2Yy1iZTlmLTQxNzItODM5OS0yZWM2ZmZlMWFjNzEiLCJhbGciOiJIUzI1NiJ9.eyJ1cmwiOiJyZXN1bWUvUmVzdW1lIFByYXBhdCBQcmFwYXRzb3JubWFudS5wZGYiLCJzY29wZSI6ImRvd25sb2FkIiwiaWF0IjoxNzgyNzI0NjMzLCJleHAiOjE4MTQyNjA2MzN9.UcXuZ-LSc2s59f5Syu681xGJIoIERYBZ4dtxVZJrv0c"
+          href={resumeUrl}
           download
           target="_blank"
+          rel="noopener noreferrer"
           className="flex px-1 items-center gap-1 text-on-surface-variant underline cursor-pointer hover:no-underline">
           <Download className="size-5" />
           <span>Resume (Updated 2026)</span>

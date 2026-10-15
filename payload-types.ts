@@ -95,8 +95,12 @@ export interface Config {
     defaultIDType: number;
   };
   fallbackLocale: null;
-  globals: {};
-  globalsSelect: {};
+  globals: {
+    profile: Profile;
+  };
+  globalsSelect: {
+    profile: ProfileSelect<false> | ProfileSelect<true>;
+  };
   locale: null;
   widgets: {
     collections: CollectionsWidget;
@@ -132,6 +136,7 @@ export interface UserAuthOperations {
 export interface Media {
   id: number;
   alt: string;
+  _objectKey?: string | null;
   updatedAt: string;
   createdAt: string;
   url?: string | null;
@@ -171,6 +176,10 @@ export interface Project {
   links?: {
     websiteUrl?: string | null;
   };
+  /**
+   * บทบาทของคุณในโปรเจคนี้ (เช่น Lead Frontend Developer)
+   */
+  role?: string | null;
   completionDate?: string | null;
   updatedAt: string;
   createdAt: string;
@@ -227,10 +236,6 @@ export interface Stack {
    * เลือกสกิลย่อยที่อยู่ในหมวดหมู่นี้ โดยเลือกจากคอลเลกชัน Skills
    */
   skills: (number | Skill)[];
-  /**
-   * จัดลำดับการแสดงผลบนหน้าเว็บไซต์ (ค่าน้อยจะแสดงก่อน)
-   */
-  order?: number | null;
   updatedAt: string;
   createdAt: string;
 }
@@ -301,6 +306,7 @@ export interface User {
   resetPasswordExpiration?: string | null;
   salt?: string | null;
   hash?: string | null;
+  resetPasswordRequestedAt?: string | null;
   loginAttempts?: number | null;
   lockUntil?: string | null;
   sessions?:
@@ -392,6 +398,7 @@ export interface PayloadMigration {
  */
 export interface MediaSelect<T extends boolean = true> {
   alt?: T;
+  _objectKey?: T;
   updatedAt?: T;
   createdAt?: T;
   url?: T;
@@ -420,6 +427,7 @@ export interface ProjectsSelect<T extends boolean = true> {
     | {
         websiteUrl?: T;
       };
+  role?: T;
   completionDate?: T;
   updatedAt?: T;
   createdAt?: T;
@@ -443,7 +451,6 @@ export interface StacksSelect<T extends boolean = true> {
   icon?: T;
   color?: T;
   skills?: T;
-  order?: T;
   updatedAt?: T;
   createdAt?: T;
 }
@@ -483,6 +490,7 @@ export interface UsersSelect<T extends boolean = true> {
   resetPasswordExpiration?: T;
   salt?: T;
   hash?: T;
+  resetPasswordRequestedAt?: T;
   loginAttempts?: T;
   lockUntil?: T;
   sessions?:
@@ -524,6 +532,29 @@ export interface PayloadMigrationsSelect<T extends boolean = true> {
   batch?: T;
   updatedAt?: T;
   createdAt?: T;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "profile".
+ */
+export interface Profile {
+  id: number;
+  /**
+   * ไฟล์ Resume ที่ปุ่ม Download บนหน้าแรกจะลิงก์ไป
+   */
+  resume?: (number | null) | Media;
+  updatedAt?: string | null;
+  createdAt?: string | null;
+}
+/**
+ * This interface was referenced by `Config`'s JSON-Schema
+ * via the `definition` "profile_select".
+ */
+export interface ProfileSelect<T extends boolean = true> {
+  resume?: T;
+  updatedAt?: T;
+  createdAt?: T;
+  globalType?: T;
 }
 /**
  * This interface was referenced by `Config`'s JSON-Schema

@@ -1,6 +1,7 @@
 "use client";
 
 import { useActionState, useEffect, useRef } from "react";
+import Script from "next/script";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { motion, AnimatePresence } from "motion/react";
@@ -17,7 +18,18 @@ import { InputField } from "./InputField";
 
 const initialState: ContactFormState = { success: false, error: null };
 
-const Form = () => {
+declare global {
+  interface Window {
+    turnstile?: { reset: (widget?: string | HTMLElement) => void };
+  }
+}
+
+type FormProps = {
+  /** Cloudflare Turnstile site key. The widget only renders when it is set. */
+  turnstileSiteKey?: string;
+};
+
+const Form = ({ turnstileSiteKey }: FormProps) => {
   const formRef = useRef<HTMLFormElement>(null);
 
   const [state, formAction, isPending] = useActionState(
@@ -42,6 +54,11 @@ const Form = () => {
       formRef.current?.reset();
     }
   }, [state.success, reset]);
+
+  // Turnstile tokens are single-use: get a fresh one after every submit
+  useEffect(() => {
+    if (state.timestamp) window.turnstile?.reset();
+  }, [state.timestamp]);
 
   return (
     <div className="w-full max-w-2xl mx-auto">
@@ -102,6 +119,20 @@ const Form = () => {
               error={clientErrors.tel || state.fieldErrors?.tel}
               disabled={isPending}
             />
+
+            {turnstileSiteKey && (
+              <>
+                <Script
+                  src="https://challenges.cloudflare.com/turnstile/v0/api.js"
+                  strategy="lazyOnload"
+                />
+                <div
+                  className="cf-turnstile flex justify-center"
+                  data-sitekey={turnstileSiteKey}
+                  data-theme="dark"
+                />
+              </>
+            )}
 
             <div className="flex items-center justify-center p-1.5 pt-4">
               <button

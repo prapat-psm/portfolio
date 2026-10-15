@@ -41,7 +41,7 @@ export default function ProjectDetailContent({
             fill
             sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
             className="object-cover object-center"
-            priority
+            loading="eager"
           />
         )}
         <div className="absolute inset-0 bg-linear-to-t from-background via-background/20 to-transparent" />
@@ -100,14 +100,14 @@ export default function ProjectDetailContent({
           </div>
 
           <aside className="flex flex-col gap-6 h-fit sticky top-0 right-0">
-            <div className="space-y-4">
-              <h4 className="uppercase tracking-widest font-semibold text-primary-dim">
-                Role / Focus
-              </h4>
-              <p className="body-lg text-on-surface-variant">
-                Lead Fullstack Architect & Performance Optimization.
-              </p>
-            </div>
+            {project.role && (
+              <div className="space-y-4">
+                <h4 className="uppercase tracking-widest font-semibold text-primary-dim">
+                  Role / Focus
+                </h4>
+                <p className="body-lg text-on-surface-variant">{project.role}</p>
+              </div>
+            )}
             {project.completionDate && (
               <div className="space-y-4">
                 <h4 className="uppercase tracking-widest font-semibold text-primary-dim">

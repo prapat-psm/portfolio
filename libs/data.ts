@@ -49,3 +49,12 @@ export const getWorkExperiences = unstable_cache(
   ["work-experiences"],
   { tags: [CACHE_TAGS.workExperiences] },
 );
+
+export const getProfile = unstable_cache(
+  async () => {
+    const payload = await getPayload({ config });
+    return payload.findGlobal({ slug: "profile" });
+  },
+  ["profile"],
+  { tags: [CACHE_TAGS.profile] },
+);

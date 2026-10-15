@@ -34,6 +34,7 @@ describe("submitContactForm", () => {
     vi.stubEnv("RESEND_API_KEY", "re_test");
     vi.stubEnv("CONTACT_FROM_EMAIL", "");
     vi.stubEnv("CONTACT_TO_EMAIL", "owner@example.com");
+    vi.stubEnv("TURNSTILE_SECRET_KEY", "");
     ip = `ip-${Math.random()}`;
   });
 
@@ -110,5 +111,52 @@ describe("submitContactForm", () => {
     expect(blocked.success).toBe(false);
     expect(blocked.error).toMatch(/too many/i);
     expect(send).toHaveBeenCalledTimes(3);
+  });
+});
+
+describe("submitContactForm with Turnstile", () => {
+  const fetchMock = vi.fn();
+
+  beforeEach(() => {
+    send.mockReset().mockResolvedValue({ data: { id: "1" }, error: null });
+    vi.stubEnv("RESEND_API_KEY", "re_test");
+    vi.stubEnv("CONTACT_FROM_EMAIL", "");
+    vi.stubEnv("TURNSTILE_SECRET_KEY", "ts_secret");
+    vi.stubGlobal("fetch", fetchMock);
+    ip = `ip-${Math.random()}`;
+  });
+
+  it("rejects a submission without a token", async () => {
+    const submit = await loadAction();
+    const result = await submit(initial, form(valid));
+
+    expect(result.error).toMatch(/security check/i);
+    expect(fetchMock).not.toHaveBeenCalled();
+    expect(send).not.toHaveBeenCalled();
+  });
+
+  it("rejects a token Cloudflare marks as invalid", async () => {
+    fetchMock.mockResolvedValue({ json: async () => ({ success: false }) });
+    const submit = await loadAction();
+    const result = await submit(
+      initial,
+      form({ ...valid, "cf-turnstile-response": "bad" }),
+    );
+
+    expect(result.success).toBe(false);
+    expect(send).not.toHaveBeenCalled();
+  });
+
+  it("sends when the token is valid", async () => {
+    fetchMock.mockResolvedValue({ json: async () => ({ success: true }) });
+    const submit = await loadAction();
+    const result = await submit(
+      initial,
+      form({ ...valid, "cf-turnstile-response": "good" }),
+    );
+
+    expect(result.success).toBe(true);
+    expect(fetchMock.mock.calls[0][0]).toContain("challenges.cloudflare.com");
+    expect(send).toHaveBeenCalledTimes(1);
   });
 });

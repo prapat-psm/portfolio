@@ -5,6 +5,7 @@ import { Resend } from "resend";
 import { ResponseEmail } from "@/emails/ResponseEmail";
 import { NotificationEmail } from "@/emails/NotificationEmail";
 import { createRateLimiter } from "@/libs/rate-limit";
+import { TURNSTILE_FIELD, verifyTurnstile } from "@/libs/turnstile";
 import {
   contactSchema,
   HONEYPOT_FIELD,
@@ -46,10 +47,20 @@ export async function submitContactForm(
     };
   }
 
-  if (!isAllowed(await getClientIp())) {
+  const ip = await getClientIp();
+
+  if (!isAllowed(ip)) {
     return {
       success: false,
       error: "Too many messages. Please try again later.",
+      timestamp,
+    };
+  }
+
+  if (!(await verifyTurnstile(formData.get(TURNSTILE_FIELD), ip))) {
+    return {
+      success: false,
+      error: "Please complete the security check and try again.",
       timestamp,
     };
   }
