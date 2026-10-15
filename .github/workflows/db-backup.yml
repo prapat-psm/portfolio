@@ -1,0 +1,61 @@
+name: Database backup
+
+# Weekly encrypted pg_dump of the Supabase database, kept as a workflow artifact.
+# Secrets:
+#   BACKUP_DATABASE_URL  Supabase session-pooler or direct URL (port 5432, not the 6543 transaction pooler)
+#   BACKUP_PASSPHRASE    Long random string used to encrypt the dump (store it in your password manager)
+#
+# Restore:
+#   gpg --batch --passphrase "$BACKUP_PASSPHRASE" -d backup.dump.gpg > backup.dump
+#   pg_restore --clean --if-exists --no-owner -d "$TARGET_DATABASE_URL" backup.dump
+
+on:
+  schedule:
+    - cron: "0 3 * * 0" # Sundays 03:00 UTC
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: db-backup
+  cancel-in-progress: false
+
+jobs:
+  backup:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - name: Check secrets
+        env:
+          BACKUP_DATABASE_URL: ${{ secrets.BACKUP_DATABASE_URL }}
+          BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: |
+          if [ -z "$BACKUP_DATABASE_URL" ] || [ -z "$BACKUP_PASSPHRASE" ]; then
+            echo "::error::Set BACKUP_DATABASE_URL and BACKUP_PASSPHRASE in repository secrets"
+            exit 1
+          fi
+
+      - name: Dump public schema
+        env:
+          BACKUP_DATABASE_URL: ${{ secrets.BACKUP_DATABASE_URL }}
+        run: |
+          # Server is Postgres 17; pg_dump must be the same major version or newer.
+          docker run --rm -e BACKUP_DATABASE_URL -v "$PWD:/out" postgres:17 \
+            sh -c 'pg_dump "$BACKUP_DATABASE_URL" --schema=public --format=custom --no-owner --no-privileges -f /out/backup.dump'
+          ls -lh backup.dump
+
+      - name: Encrypt
+        env:
+          BACKUP_PASSPHRASE: ${{ secrets.BACKUP_PASSPHRASE }}
+        run: |
+          gpg --batch --yes --symmetric --cipher-algo AES256 --passphrase "$BACKUP_PASSPHRASE" -o backup.dump.gpg backup.dump
+          rm backup.dump
+
+      - name: Upload
+        uses: actions/upload-artifact@v4
+        with:
+          name: db-backup-${{ github.run_id }}
+          path: backup.dump.gpg
+          retention-days: 90
+          if-no-files-found: error
