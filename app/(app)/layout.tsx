@@ -6,6 +6,7 @@ import { Header } from "@/components/Header";
 import { FloatingButton } from "@/components/FloatingButton";
 import { PreloadProvider } from "@/components/Preload/PreloadProvider";
 import { Preload } from "@/components/Preload";
+import { PageTransitionProvider } from "@/components/PageTransition/PageTransitionProvider";
 import { getSiteUrl } from "@/libs/site-url";
 
 const silkscreen = Silkscreen({
@@ -32,7 +33,7 @@ const description =
 
 export const metadata: Metadata = {
   metadataBase: new URL(getSiteUrl()),
-  title,
+  title: { default: title, template: `%s | ${title}` },
   description,
   alternates: { canonical: "/" },
   openGraph: {
@@ -62,11 +63,13 @@ export default function RootLayout({
       className={`${silkscreen.variable} ${pixelifySans.variable} ${pressStart2P.variable} h-full antialiased`}>
       <body className="min-h-full flex flex-col bg-surface text-on-background">
         <PreloadProvider>
-          <Preload />
-          <Header />
-          <main className="flex-1">{children}</main>
-          <Footer />
-          <FloatingButton />
+          <PageTransitionProvider>
+            <Preload />
+            <Header />
+            <main className="flex-1 flex flex-col">{children}</main>
+            <Footer />
+            <FloatingButton />
+          </PageTransitionProvider>
         </PreloadProvider>
       </body>
     </html>
