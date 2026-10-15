@@ -22,6 +22,7 @@
     "@payloadcms/storage-s3": "3.90.2",
     "@radix-ui/react-dialog": "^1.1.15",
     "@react-email/components": "^1.0.10",
+    "@react-three/fiber": "^9.8.2",
     "clsx": "^2.1.1",
     "graphql": "^16.13.2",
     "lucide-react": "^1.7.0",
@@ -35,6 +36,7 @@
     "server-only": "^0.0.1",
     "sharp": "^0.35.5",
     "tailwind-merge": "^3.5.0",
+    "three": "^0.180.0",
     "zod": "^4.3.6"
   },
   "devDependencies": {
@@ -44,6 +46,7 @@
     "@types/node": "^20",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/three": "^0.180.0",
     "eslint": "^9",
     "eslint-config-next": "16.4.1",
     "jsdom": "^29.1.1",
