@@ -71,10 +71,10 @@ const Information = ({ resumeUrl }: InformationProps) => {
       <motion.div
         variants={itemVariants}
         className="flex flex-wrap p-1.5 gap-5">
-        <Button href="#projects" variants="primary-dim">
+        <Button href="/projects" variants="primary-dim">
           View Projects
         </Button>
-        <Button href="#contact" variants="outline">
+        <Button href="/contact" variants="outline">
           Contact
         </Button>
 

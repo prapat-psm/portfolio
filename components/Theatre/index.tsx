@@ -17,7 +17,7 @@ const Theatre = async () => {
   return (
     <section
       id="intro"
-      className="c-section flex flex-col justify-center gap-8 relative overflow-hidden"
+      className="c-section flex-1 flex flex-col justify-center gap-8 relative overflow-hidden"
     >
       <HeroBackground />
 

@@ -1,5 +1,6 @@
 import { Brand } from "./Brand";
 import { Navigation } from "./Navigation";
+import { MobileNav } from "./MobileNav";
 
 const Header = () => {
   return (
@@ -7,6 +8,9 @@ const Header = () => {
       <div className="c-container flex items-center h-full relative">
         <div className="absolute top-[calc(50%-0.25rem)] left-[calc(50%-0.25rem)] -translate-x-1/2 -translate-y-1/2">
           <Brand />
+        </div>
+        <div className="ml-auto">
+          <MobileNav />
         </div>
         <div className="max-xl:hidden flex items-center justify-between w-full">
           <div className="shrink-0"></div>
