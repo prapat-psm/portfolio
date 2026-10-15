@@ -1,6 +1,7 @@
 import { getProfile } from "@/libs/data";
 import { Information } from "./Information";
 import { Portrait } from "./Portrait";
+import { HeroBackground } from "./HeroBackground";
 
 // Used until a resume is uploaded in Payload (Globals → Profile).
 // This signed URL expires on 2027-06-29.
@@ -16,9 +17,9 @@ const Theatre = async () => {
   return (
     <section
       id="intro"
-      className="c-section flex flex-col justify-center gap-8 relative overflow-hidden"
+      className="c-section flex-1 flex flex-col justify-center gap-8 relative overflow-hidden"
     >
-      <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-full lg:size-1/2 bg-primary/20 blur-[120px] pointer-events-none" />
+      <HeroBackground />
 
       <div className="c-container">
         <div className="grid place-items-center grid-cols-6 lg:grid-cols-12 gap-y-10 gap-x-4">

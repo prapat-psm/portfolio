@@ -3,12 +3,16 @@
 import { motion } from "motion/react";
 import { Button } from "./Button";
 import { cn } from "@/libs/cn";
+import { usePathname } from "next/navigation";
 
 /**
  * FloatingButton component that stays at the bottom right corner
  * Features a pixel-perfect design and a bouncy animation loop.
  */
 const FloatingButton = ({ className }: { className?: string }) => {
+  const pathname = usePathname();
+  if (pathname === "/contact") return null;
+
   return (
     <motion.div
       className={cn("fixed bottom-8 right-8 z-100", className)}
@@ -46,7 +50,7 @@ const FloatingButton = ({ className }: { className?: string }) => {
       whileTap={{ scale: 0.95 }}
     >
       <Button
-        href="#contact"
+        href="/contact"
         variants="secondary"
         className="btn-pixel--small shadow-[4px_4px_0_0_rgba(0,0,0,0.3)]"
       >
