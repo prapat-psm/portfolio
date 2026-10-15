@@ -1,10 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
 import dynamic from "next/dynamic";
-import { motion, useReducedMotion } from "motion/react";
-import { usePreload } from "@/components/Preload/PreloadProvider";
-import { canUseWebGLHero, readHeroEnvironment } from "@/libs/hero-fx";
+import { motion } from "motion/react";
+import { useWebGLReady } from "./use-webgl-ready";
 
 // three.js lives in its own chunk and is never part of the server render
 const PixelField = dynamic(() => import("./PixelField"), { ssr: false });
@@ -15,27 +13,12 @@ const PixelField = dynamic(() => import("./PixelField"), { ssr: false });
  * the intro has finished and the browser is idle, so it never delays LCP.
  */
 const HeroBackground = () => {
-  const { isPreloadFinished } = usePreload();
-  const reducedMotion = useReducedMotion();
-  const [showCanvas, setShowCanvas] = useState(false);
-
-  useEffect(() => {
-    if (!isPreloadFinished || reducedMotion) return;
-
-    const enable = () => setShowCanvas(canUseWebGLHero(readHeroEnvironment()));
-
-    if ("requestIdleCallback" in window) {
-      const id = window.requestIdleCallback(enable, { timeout: 2000 });
-      return () => window.cancelIdleCallback(id);
-    }
-    const id = setTimeout(enable, 300);
-    return () => clearTimeout(id);
-  }, [isPreloadFinished, reducedMotion]);
+  const showCanvas = useWebGLReady();
 
   return (
     <>
       <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 size-full lg:size-1/2 bg-primary/20 blur-[120px] pointer-events-none" />
-      {showCanvas && !reducedMotion && (
+      {showCanvas && (
         <motion.div
           initial={{ opacity: 0 }}
           animate={{ opacity: 0.45 }}
