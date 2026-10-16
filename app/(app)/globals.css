@@ -58,7 +58,8 @@
       inset 0px 4px color-mix(in srgb, white 10%, transparent),
       inset 0px -4px color-mix(in srgb, black 30%, transparent);
 
-    @apply bg-(--color-base) font-silkscreen text-on-background text-sm px-5 h-10 cursor-pointer flex items-center gap-x-1 font-semibold justify-center transition-transform;
+    /* Black label passes WCAG AA (4.5:1) on every button color below */
+    @apply bg-(--color-base) font-silkscreen text-black text-sm px-5 h-10 cursor-pointer flex items-center gap-x-1 font-semibold justify-center transition-transform;
 
     &:hover {
       transform: translateY(-2px);
