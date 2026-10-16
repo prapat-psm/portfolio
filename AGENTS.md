@@ -53,3 +53,17 @@ Project rules the skills must respect:
 
 - Collection or global changed → `npm run migrate:create <name>` and commit the file in `migrations/`. Production runs migrations on start; previews skip them.
 - Instruction Rules above (8-bit palette, pixel fonts, pixel borders, caching) apply to every plan.
+
+### Project skills and agents (`.claude/`)
+
+| Command / agent | Use it for |
+|---|---|
+| `/feature <what>` | Any user-visible change, idea → PR (calls the agents below + TDD + verify) |
+| `/fix-bug <error>` | Bugs: reproduce → root cause → regression test → fix |
+| `/schema-change <name>` | Any edit in `collections/` or `globals/` (Payload migration) |
+| `/verify` | lint + types + tests + build before saying done |
+| `project-manager` agent | Plans in `docs/plans/`, roadmap in `docs/ROADMAP.md`, status reviews |
+| `designer` agent | Pixel-art UI specs in `docs/design/`, UI reviews |
+| `marketing` agent | Copy, SEO, OG, social posts, content in `docs/content/` |
+
+Call an agent by name in the prompt, e.g. "use the designer agent to review the Contact section".
